@@ -13,8 +13,8 @@ class UsersControllerTest extends WebTestCase {
 
     $response = $client->getResponse();
     $this->assertEquals(200, $response->getStatusCode());
-    $responseData = json_decode($response->getContent(), true);
-    $this->assertEquals([], $responseData);
+    $this->assertEquals("application/json", $response->headers->get("content-type"));
+    $this->assertEquals("[]", $response->getContent());
   }
 
 }
