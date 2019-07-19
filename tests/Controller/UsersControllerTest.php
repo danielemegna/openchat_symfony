@@ -39,7 +39,7 @@ class UsersControllerTest extends WebTestCase {
         'about' => 'About maria89 here.',
       ]
     ];
-    $this->assertEquals($expected, $actual);//, "\$canonicalize = true");
+    $this->assertArrayContainsExactlyInAnyOrder($expected, $actual);
   }
 
   private function retrieveUsers() {
@@ -70,6 +70,10 @@ class UsersControllerTest extends WebTestCase {
         ['CONTENT_TYPE' => 'application/json'],
         json_encode($data)
     );
+  }
+
+  private function assertArrayContainsExactlyInAnyOrder($expected, $actual) {
+    $this->assertEquals($expected, $actual, "\$canonicalize = true", 0.0, 10, true);
   }
 
 }
