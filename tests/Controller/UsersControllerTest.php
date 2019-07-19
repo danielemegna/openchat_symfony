@@ -25,6 +25,21 @@ class UsersControllerTest extends WebTestCase {
       'password' => 'yeah$ecure',
       'about' => 'About maria89 here.',
     ]);
+
+    $actual = $this->retrieveUsers();
+    $expected = [
+      [
+        'id' => $shadyId,
+        'username' => 'shady90',
+        'about' => 'About shady90 here.',
+      ],
+      [
+        'id' => $mariaId,
+        'username' => 'maria89',
+        'about' => 'About maria89 here.',
+      ]
+    ];
+    $this->assertEquals($expected, $actual);//, "\$canonicalize = true");
   }
 
   private function retrieveUsers() {

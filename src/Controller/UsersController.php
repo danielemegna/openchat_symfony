@@ -9,11 +9,13 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class UsersController extends Controller {
 
+  private static $users = [];
+
   /**
    * @Route("/users", methods={"GET"})
    */
   public function retrieveUsers() {
-    return $this->json([]);
+    return $this->json(self::$users);
   }
 
   /**
@@ -23,10 +25,13 @@ class UsersController extends Controller {
     $userToBeRegistered = json_decode($request->getContent());
 
     $createdUser = [
-      'id' => '7a440ea9-6272-454b-a552-0848e9c366ae',
+      'id' => uniqid(),
       'username' => $userToBeRegistered->username,
       'about' => $userToBeRegistered->about
     ];
+
+    array_push(self::$users, $createdUser);
+
     return $this->json($createdUser);
   }
 
