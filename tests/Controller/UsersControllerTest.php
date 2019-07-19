@@ -6,15 +6,55 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class UsersControllerTest extends WebTestCase {
 
-  public function testEmptyUserArray() {
-    $client = static::createClient();
+  private $client;
 
-    $client->request('GET', '/users');
+  protected function setUp() {
+    $this->client = static::createClient();
+  }
 
-    $response = $client->getResponse();
+  public function testScenario() {
+    $this->assertEquals([], $this->retrieveUsers());
+
+    $shadyId = $this->registerUser([
+      'username' => 'shady90',
+      'password' => 'very$ecure',
+      'about' => 'About shady90 here.',
+    ]);
+    $mariaId = $this->registerUser([
+      'username' => 'maria89',
+      'password' => 'yeah$ecure',
+      'about' => 'About maria89 here.',
+    ]);
+  }
+
+  private function retrieveUsers() {
+    $this->client->request('GET', '/users');
+
+    $response = $this->client->getResponse();
     $this->assertEquals(200, $response->getStatusCode());
     $this->assertEquals("application/json", $response->headers->get("content-type"));
-    $this->assertEquals("[]", $response->getContent());
+    return json_decode($response->getContent(), true);
+  }
+
+  private function registerUser($user) {
+    $this->postAsJson($user);
+
+    $response = $this->client->getResponse();
+    $this->assertEquals(200, $response->getStatusCode());
+    $this->assertEquals("application/json", $response->headers->get("content-type"));
+    $responseBody = json_decode($response->getContent(), true);
+    $this->assertTrue(array_key_exists("id", $responseBody));
+    $this->assertEquals($user["username"], $responseBody["username"]);
+    $this->assertEquals($user["about"], $responseBody["about"]);
+
+    return $responseBody["id"];
+  }
+
+  private function postAsJson($data) {
+    $this->client->request('POST', '/users', [], [],
+        ['CONTENT_TYPE' => 'application/json'],
+        json_encode($data)
+    );
   }
 
 }
