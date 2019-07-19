@@ -14,7 +14,7 @@ final class User {
   }
 
   public static function build(string $id, string $username, string $about, string $password) {
-    return new User(null, $username, $about, $password);
+    return new User($id, $username, $about, $password);
   }
 
   private function __construct(?string $id, string $username, string $about, string $password) {
