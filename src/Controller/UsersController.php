@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,24 +16,43 @@ class UsersController extends Controller {
    * @Route("/users", methods={"GET"})
    */
   public function retrieveUsers() {
-    return $this->json(self::$users);
+    $responseBody = array_map(function($u) {
+      return [
+        'id' => $u->getId(),
+        'username' => $u->getUsername(),
+        'about' => $u->getAbout()
+      ];
+    }, self::$users);
+
+    return $this->json($responseBody);
   }
 
   /**
    * @Route("/users", methods={"POST"})
    */
   public function registerUser(Request $request) {
-    $userToBeRegistered = json_decode($request->getContent());
+    $requestBody = json_decode($request->getContent());
 
-    $createdUser = [
-      'id' => uniqid(),
-      'username' => $userToBeRegistered->username,
-      'about' => $userToBeRegistered->about
-    ];
+    $userToBeRegistered = User::newWithoutId(
+      $requestBody->username,
+      $requestBody->about,
+      $requestBody->password
+    );
 
+    $createdUser = User::build(
+      uniqid(),
+      $userToBeRegistered->getUsername(),
+      $userToBeRegistered->getAbout(),
+      $userToBeRegistered->getPassword()
+    );
     array_push(self::$users, $createdUser);
 
-    return $this->json($createdUser);
+    $responseBody = [
+      'id' => $createdUser->getId(),
+      'username' => $createdUser->getUsername(),
+      'about' => $createdUser->getAbout()
+    ];
+    return $this->json($responseBody);
   }
 
 }

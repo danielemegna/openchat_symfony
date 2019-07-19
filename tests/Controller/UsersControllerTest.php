@@ -27,18 +27,15 @@ class UsersControllerTest extends WebTestCase {
     ]);
 
     $actual = $this->retrieveUsers();
-    $expected = [
-      [
-        'id' => $shadyId,
-        'username' => 'shady90',
-        'about' => 'About shady90 here.',
-      ],
-      [
-        'id' => $mariaId,
-        'username' => 'maria89',
-        'about' => 'About maria89 here.',
-      ]
-    ];
+    $expected = [[
+      'id' => $shadyId,
+      'username' => 'shady90',
+      'about' => 'About shady90 here.',
+    ], [
+      'id' => $mariaId,
+    'username' => 'maria89',
+    'about' => 'About maria89 here.',
+    ]];
     $this->assertArrayContainsExactlyInAnyOrder($expected, $actual);
   }
 
