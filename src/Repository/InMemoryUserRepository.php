@@ -2,15 +2,24 @@
 
 namespace App\Repository;
 
+use App\Entity\User;
+
 class InMemoryUserRepository implements UserRepository {
 
-  private static $users = [];
+  private $users = [];
 
   function getAll() {
-    return self::$users;
+    return $this->users;
   }
 
   function store($user) {
-    array_push(self::$users, $user);
+    $toBeStored = User::build(
+      uniqid(),
+      $user->getUsername(),
+      $user->getAbout(),
+      $user->getPassword()
+    );
+    array_push($this->users, $toBeStored);
+    return $toBeStored->getId();
   }
 }
