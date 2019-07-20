@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Repository;
+namespace App\Tests\Repository;
 
+use App\Repository\UserRepository;
 use App\Entity\User;
 
 class InMemoryUserRepository implements UserRepository {

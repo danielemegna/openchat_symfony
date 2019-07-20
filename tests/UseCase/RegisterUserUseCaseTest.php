@@ -5,7 +5,7 @@ namespace App\Tests\UseCase;
 use PHPUnit\Framework\TestCase;
 use App\UseCase\RegisterUserUseCase;
 use App\Entity\User;
-use App\Repository\InMemoryUserRepository;
+use App\Tests\Repository\InMemoryUserRepository;
 
 class RegisterUserUseCaseTest extends TestCase {
 
