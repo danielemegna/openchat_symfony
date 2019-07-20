@@ -4,14 +4,9 @@ namespace App\Tests\E2E;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class UsersApiE2ETest extends WebTestCase {
-
-  private $client;
+class UsersApiE2ETest extends BaseE2E {
 
   public function testScenario() {
-    $this->client = static::createClient();
-    $this->cleanApplication();
-
     $users = $this->retrieveUsers();
     $this->assertEquals([], $users);
 
@@ -36,7 +31,7 @@ class UsersApiE2ETest extends WebTestCase {
   }
 
   private function registerUser($username, $about, $password) {
-    $this->postAsJson([
+    $this->postAsJson('/users', [
       'username' => $username,
       'password' => $password,
       'about' => $about
@@ -51,22 +46,6 @@ class UsersApiE2ETest extends WebTestCase {
     $this->assertEquals($about, $responseBody["about"]);
 
     return $responseBody["id"];
-  }
-
-  private function postAsJson($data) {
-    $this->client->request('POST', '/users', [], [],
-        ['CONTENT_TYPE' => 'application/json'],
-        json_encode($data)
-    );
-  }
-
-  private function assertArrayContainsExactlyInAnyOrder($expected, $actual) {
-    $this->assertEquals($expected, $actual, "\$canonicalize = true", 0.0, 10, true);
-  }
-
-  private function cleanApplication() {
-    // i know ... a bit rude
-    unlink('sql.db');
   }
 
 }
