@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Tests\Controller;
+namespace App\Tests\E2E;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class UsersControllerTest extends WebTestCase {
+class UsersApiE2ETest extends WebTestCase {
 
   private $client;
 
