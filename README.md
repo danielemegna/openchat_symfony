@@ -1,6 +1,14 @@
-# TODO
+# Open Chat Backend Kata
 
-....
+Develop a rest backend for the Open Chat project following api specification in material/APIs.yaml.
+
+## About this Kata
+
+This Kata is used by Robert C. Martin and Sandro Mancuso in "London vs. Chicago" cleancoders serie:
+
+* https://cleancoders.com/videos?series=comparativeDesign
+* https://github.com/sandromancuso/cleancoders_openchat/
+* https://github.com/danielemegna/cleancoders_openchat/tree/openchat-hexagonal
 
 ### Dev notes
 
