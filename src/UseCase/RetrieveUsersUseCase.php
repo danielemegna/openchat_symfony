@@ -2,11 +2,13 @@
 
 namespace App\UseCase;
 
+use App\Repository\UserRepository;
+
 class RetrieveUsersUseCase {
 
   private $userRepository;
 
-  function __construct($userRepository) {
+  function __construct(UserRepository $userRepository) {
     $this->userRepository = $userRepository;
   }
 

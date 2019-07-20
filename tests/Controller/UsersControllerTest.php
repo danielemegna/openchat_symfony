@@ -8,21 +8,22 @@ class UsersControllerTest extends WebTestCase {
 
   private $client;
 
-  protected function setUp() {
-    $this->client = static::createClient();
-  }
-
   public function testScenario() {
-    $this->assertEquals([], $this->retrieveUsers());
+    $this->client = static::createClient();
+    $this->cleanApplication();
+
+    $users = $this->retrieveUsers();
+    $this->assertEquals([], $users);
+
     $shadyId = $this->registerUser('shady90', 'About shady90 here.', 'very$ecure');
     $mariaId = $this->registerUser('maria89','About maria89 here.', 'yeah$ecure');
 
-    $actual = $this->retrieveUsers();
+    $users = $this->retrieveUsers();
     $expected = [
       ['id' => $shadyId, 'username' => 'shady90', 'about' => 'About shady90 here.'],
       ['id' => $mariaId, 'username' => 'maria89', 'about' => 'About maria89 here.']
     ];
-    $this->assertArrayContainsExactlyInAnyOrder($expected, $actual);
+    $this->assertArrayContainsExactlyInAnyOrder($expected, $users);
   }
 
   private function retrieveUsers() {
@@ -61,6 +62,11 @@ class UsersControllerTest extends WebTestCase {
 
   private function assertArrayContainsExactlyInAnyOrder($expected, $actual) {
     $this->assertEquals($expected, $actual, "\$canonicalize = true", 0.0, 10, true);
+  }
+
+  private function cleanApplication() {
+    // i know ... a bit rude
+    unlink('sql.db');
   }
 
 }
