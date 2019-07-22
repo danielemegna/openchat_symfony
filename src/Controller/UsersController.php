@@ -3,12 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\UsernameAlreadyUsed;
 use App\UseCase\RegisterUserUseCase;
 use App\UseCase\RetrieveUsersUseCase;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class UsersController extends Controller {
 
@@ -26,6 +28,10 @@ class UsersController extends Controller {
   public function registerUser(Request $request, RegisterUserUseCase $usecase) {
     $userToBeRegistered = $this->deserializeUser($request->getContent());
     $createdUser = $usecase->run($userToBeRegistered);
+
+    if($createdUser instanceof UsernameAlreadyUsed)
+      return new Response('Username already in use.', 400, ['Content-Type' => 'text/plain']);
+
     return $this->serializeUser($createdUser);
   }
 
