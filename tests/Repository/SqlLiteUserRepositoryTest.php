@@ -21,13 +21,19 @@ class SqlLiteUserRepositoryTest extends TestCase {
   }
 
   public function testStoreAndGetAll() {
-    $storedId = $this->repository->store(User::newWithoutId("username", "about", "passwd"));
-    $this->assertNotNull($storedId);
-    $this->assertNotEmpty($storedId);
+    $firstStoredId = $this->repository->store(User::newWithoutId("shady90", "shady90 about.", "securePassword"));
+    $this->assertTrue(!is_null($firstStoredId) && !empty($firstStoredId));
+    $secondStoredId = $this->repository->store(User::newWithoutId("maria89", "maria89 about.", "secureAgain"));
+    $this->assertTrue(!is_null($secondStoredId) && !empty($secondStoredId));
 
     $users = $this->repository->getAll();
-    $this->assertEquals(1, sizeof($users), var_export($users, true));
-    $this->assertEquals("username", $users[0]->getUsername());
+
+    $this->assertEquals(2, sizeof($users));
+    $expected = [
+      User::build($firstStoredId, "shady90", "shady90 about.", "securePassword"),
+      User::build($secondStoredId, "maria89", "maria89 about.", "secureAgain")
+    ];
+    $this->assertEquals($expected, $users);
   }
 
 }
