@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class UsersApiE2ETest extends BaseE2E {
 
-  public function testScenario() {
+  public function testRegisterAndRetrieveScenario() {
     $users = $this->retrieveUsers();
     $this->assertEquals([], $users);
 

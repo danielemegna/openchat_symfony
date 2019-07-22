@@ -3,6 +3,7 @@
 namespace App\UseCase;
 
 use App\Entity\User;
+use App\Entity\UsernameAlreadyUsed;
 use App\Repository\UserRepository;
 
 class RegisterUserUseCase {
@@ -13,7 +14,11 @@ class RegisterUserUseCase {
     $this->userRepository = $userRepository;
   }
 
-  public function run($user) {
+  function run($user) {
+    if($this->userRepository->getByUsername($user->getUsername()) !== null) {
+      return new UsernameAlreadyUsed($user->getUsername());
+    }
+
     $storedId = $this->userRepository->store($user);
     return User::build(
       $storedId,
