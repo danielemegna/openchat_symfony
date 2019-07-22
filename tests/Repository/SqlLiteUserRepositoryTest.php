@@ -34,6 +34,13 @@ class SqlLiteUserRepositoryTest extends TestCase {
       User::build($secondStoredId, "maria89", "maria89 about.", "secureAgain")
     ];
     $this->assertEquals($expected, $users);
+
+    $foundUser = $this->repository->getByUsername("notPresent");
+    $this->assertNull($foundUser);
+
+    $foundUser = $this->repository->getByUsername("maria89");
+    $expected = User::build($secondStoredId, "maria89", "maria89 about.", "secureAgain");
+    $this->assertEquals($expected, $foundUser);
   }
 
 }

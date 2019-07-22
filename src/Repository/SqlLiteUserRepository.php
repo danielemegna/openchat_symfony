@@ -21,12 +21,22 @@ class SqlLiteUserRepository implements UserRepository {
   }
 
   function getAll() {
-    $result = $this->sqlite->query("SELECT * FROM USERS");
+    return $this->usersFrom($this->sqlite->query("SELECT * FROM USERS"));
+  }
+
+  private function usersFrom(\SQLite3Result $result) {
     $users = [];
     while ($row = $result->fetchArray()) {
       $users[] = User::build($row["ID"], $row["USERNAME"], $row["ABOUT"], $row["PASSWORD"]);
     }
     return $users;
+  }
+
+  function getByUsername($username) {
+    $select = $this->sqlite->prepare("SELECT * FROM USERS WHERE USERNAME = ?");
+    $select->bindValue(1, $username);
+    $users = $this->usersFrom($select->execute());
+    return array_pop($users);
   }
 
   function store($user) {
