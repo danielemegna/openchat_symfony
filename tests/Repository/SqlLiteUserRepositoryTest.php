@@ -15,12 +15,12 @@ class SqlLiteUserRepositoryTest extends TestCase {
     (new \SQLite3("test.db"))->exec("DELETE FROM USERS");
   }
 
-  public function testEmptyRepository() {
+  function testEmptyRepository() {
     $actual = $this->repository->getAll();
     $this->assertEquals([], $actual);
   }
 
-  public function testStoreAndGetAll() {
+  function testStoreAndGetAll() {
     $firstStoredId = $this->repository->store(User::newWithoutId("shady90", "shady90 about.", "securePassword"));
     $this->assertTrue(!is_null($firstStoredId) && !empty($firstStoredId));
     $secondStoredId = $this->repository->store(User::newWithoutId("maria89", "maria89 about.", "secureAgain"));

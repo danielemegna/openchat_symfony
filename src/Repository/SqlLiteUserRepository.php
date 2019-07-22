@@ -8,7 +8,7 @@ class SqlLiteUserRepository implements UserRepository {
 
   private $sqlite;
 
-  public function __construct($filepath) {
+  function __construct($filepath) {
     $this->sqlite = new \SQLite3($filepath);
     $this->sqlite->exec(
       "CREATE TABLE IF NOT EXISTS USERS (
@@ -20,7 +20,7 @@ class SqlLiteUserRepository implements UserRepository {
     );
   }
 
-  public function getAll() {
+  function getAll() {
     $result = $this->sqlite->query("SELECT * FROM USERS");
     $users = [];
     while ($row = $result->fetchArray()) {
@@ -29,7 +29,7 @@ class SqlLiteUserRepository implements UserRepository {
     return $users;
   }
 
-  public function store($user) {
+  function store($user) {
     $newId = uniqid();
     $insert = $this->sqlite->prepare('INSERT INTO USERS(ID, USERNAME, ABOUT, PASSWORD) VALUES(?,?,?,?)');
     $insert->bindValue(1, $newId);

@@ -12,7 +12,7 @@ class RetrieveUsersUseCase {
     $this->userRepository = $userRepository;
   }
 
-  public function run() {
+  function run() {
     return $this->userRepository->getAll();
   }
 }
