@@ -18,6 +18,17 @@ class LoginApiE2ETest extends BaseE2E {
     $this->assertEquals(404, $response->getStatusCode());
     $this->assertEquals("text/plain; charset=UTF-8", $response->headers->get("content-type"));
     $this->assertEquals("Invalid credentials.", $response->getContent());
+
+    $response = $this->postAsJson(self::ENDPOINT, [
+      'username' => 'shady90',
+      'password' => 'very$ecure'
+    ]);
+    $this->assertEquals(200, $response->getStatusCode());
+    $this->assertEquals("application/json", $response->headers->get("content-type"));
+    $responseBody = json_decode($response->getContent(), true);
+    $this->assertTrue(array_key_exists("id", $responseBody));
+    $this->assertEquals("shady90", $responseBody["username"]);
+    $this->assertEquals("About shady90 here.", $responseBody["about"]);
   }
 
 }
