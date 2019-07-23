@@ -6,9 +6,9 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class UsersApiE2ETest extends BaseE2E {
 
-  private const ENDPOINT = "/users";
+  const ENDPOINT = "/users";
 
-  public function testRegisterAndRetrieveScenario() {
+  function testRegisterAndRetrieveScenario() {
     $users = $this->retrieveUsers();
     $this->assertEquals([], $users);
 
@@ -24,30 +24,12 @@ class UsersApiE2ETest extends BaseE2E {
   }
 
   private function retrieveUsers() {
-    $this->client->request('GET',self::ENDPOINT);
+    $this->client->request('GET', self::ENDPOINT);
 
     $response = $this->client->getResponse();
     $this->assertEquals(200, $response->getStatusCode());
     $this->assertEquals("application/json", $response->headers->get("content-type"));
     return json_decode($response->getContent(), true);
-  }
-
-  private function registerUser($username, $about, $password) {
-    $this->postAsJson(self::ENDPOINT, [
-      'username' => $username,
-      'password' => $password,
-      'about' => $about
-    ]);
-
-    $response = $this->client->getResponse();
-    $this->assertEquals(200, $response->getStatusCode());
-    $this->assertEquals("application/json", $response->headers->get("content-type"));
-    $responseBody = json_decode($response->getContent(), true);
-    $this->assertTrue(array_key_exists("id", $responseBody));
-    $this->assertEquals($username, $responseBody["username"]);
-    $this->assertEquals($about, $responseBody["about"]);
-
-    return $responseBody["id"];
   }
 
 }
