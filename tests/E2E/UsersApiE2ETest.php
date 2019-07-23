@@ -6,6 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class UsersApiE2ETest extends BaseE2E {
 
+  private const ENDPOINT = "/users";
+
   public function testRegisterAndRetrieveScenario() {
     $users = $this->retrieveUsers();
     $this->assertEquals([], $users);
@@ -22,7 +24,7 @@ class UsersApiE2ETest extends BaseE2E {
   }
 
   private function retrieveUsers() {
-    $this->client->request('GET', '/users');
+    $this->client->request('GET',self::ENDPOINT);
 
     $response = $this->client->getResponse();
     $this->assertEquals(200, $response->getStatusCode());
@@ -31,7 +33,7 @@ class UsersApiE2ETest extends BaseE2E {
   }
 
   private function registerUser($username, $about, $password) {
-    $this->postAsJson('/users', [
+    $this->postAsJson(self::ENDPOINT, [
       'username' => $username,
       'password' => $password,
       'about' => $about
