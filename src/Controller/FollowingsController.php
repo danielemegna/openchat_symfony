@@ -16,4 +16,11 @@ class FollowingsController extends Controller {
     return new Response("Following created.", 201, ["Content-Type" => "text/plain"]);
   }
 
+  /**
+   * @Route("/followings/{followerId}/followees", methods={"GET"})
+   */
+  public function retrieveFollowees(string $followerId) {
+    return $this->json([]);
+  }
+
 }
