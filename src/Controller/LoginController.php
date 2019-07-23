@@ -12,7 +12,7 @@ class LoginController extends Controller {
   /**
    * @Route("/login", methods={"POST"})
    */
-  public function registerUser(Request $request) {
+  public function performLogin(Request $request) {
     return new Response('Invalid credentials.', 404, ['Content-Type' => 'text/plain']);
   }
 
