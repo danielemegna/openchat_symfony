@@ -27,7 +27,9 @@ class BaseE2E extends WebTestCase {
     $this->assertEquals($username, $responseBody["username"]);
     $this->assertEquals($about, $responseBody["about"]);
 
-    return $responseBody["id"];
+    $registeredUserId = $responseBody["id"];
+    $this->assertRegExp('/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i', $registeredUserId);
+    return $registeredUserId;
   }
 
   protected function assertArrayContainsExactlyInAnyOrder($expected, $actual) {
