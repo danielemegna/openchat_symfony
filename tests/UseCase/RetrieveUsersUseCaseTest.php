@@ -24,16 +24,16 @@ class RetrieveUsersUseCaseTest extends TestCase {
   }
 
   public function testReturnUsersStoredInRepository() {
-    $firstStoredUser = User::newWithoutId("username", "about", "pass");
-    $secondStoredUser = User::newWithoutId("username", "about", "pass");
+    $firstStoredUser = User::newWithoutId("username1", "about1", "pass1");
+    $secondStoredUser = User::newWithoutId("username2", "about2", "pass2");
     $firstUserId = $this->userRepository->store($firstStoredUser);
     $secondUserId = $this->userRepository->store($secondStoredUser);
 
     $actual = $this->usecase->run();
 
     $expected = [
-      User::build($firstUserId, "username", "about", "pass"),
-      User::build($secondUserId, "username", "about", "pass")
+      User::build($firstUserId, "username1", "about1", "pass1"),
+      User::build($secondUserId, "username2", "about2", "pass2")
     ];
 
     $this->assertEquals($expected, $actual);

@@ -15,14 +15,10 @@ class LoginUserUseCase {
   }
 
   function run($username, $password) {
-    if($username !== "shady90")
+    $user = $this->userRepository->getByUsername($username);
+    if($user === null)
       return new InvalidCredentials($username, $password);
 
-    return User::build(
-      uniqid(),
-      $username,
-      "About shady90 here.",
-      "not important"
-    );
+    return $user;
   }
 }

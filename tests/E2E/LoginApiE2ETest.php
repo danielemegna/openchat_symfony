@@ -28,7 +28,7 @@ class LoginApiE2ETest extends BaseE2E {
     $this->assertEquals(200, $response->getStatusCode());
     $this->assertEquals("application/json", $response->headers->get("content-type"));
     $responseBody = json_decode($response->getContent(), true);
-    $this->assertTrue(array_key_exists("id", $responseBody));
+    $this->assertEquals($shadyId, $responseBody["id"]);
     $this->assertEquals("shady90", $responseBody["username"]);
     $this->assertEquals("About shady90 here.", $responseBody["about"]);
   }
