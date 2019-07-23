@@ -36,11 +36,6 @@ abstract class BaseE2E extends WebTestCase {
     $this->assertEquals($expected, $actual, "\$canonicalize = true", 0.0, 10, true);
   }
 
-  protected function cleanApplication() {
-    // i know ... a bit rude
-    @unlink('sql.db');
-  }
-
   protected function postAsJson($url, $data) {
     $this->client->request('POST', $url, [], [],
         ['CONTENT_TYPE' => 'application/json'],
@@ -48,4 +43,10 @@ abstract class BaseE2E extends WebTestCase {
     );
     return $this->client->getResponse();
   }
+
+  protected function cleanApplication() {
+    // i know ... a bit rude
+    @unlink('sql.db');
+  }
+
 }
