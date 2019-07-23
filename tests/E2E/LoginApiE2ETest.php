@@ -12,8 +12,8 @@ class LoginApiE2ETest extends BaseE2E {
     $shadyId = $this->registerUser('shady90', 'About shady90 here.', 'very$ecure');
 
     $response = $this->postAsJson(self::ENDPOINT, [
-      'username' => 'notPresent',
-      'password' => 'very$ecure'
+      'username' => 'shady90',
+      'password' => 'wrongPassword'
     ]);
 
     $this->assertEquals(404, $response->getStatusCode());
