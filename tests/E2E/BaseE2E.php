@@ -4,7 +4,7 @@ namespace App\Tests\E2E;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class BaseE2E extends WebTestCase {
+abstract class BaseE2E extends WebTestCase {
 
   protected $client;
 
