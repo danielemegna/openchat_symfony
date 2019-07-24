@@ -31,3 +31,5 @@ services:
 
     App\Repository\SqlLiteUserRepository:
         arguments: ["sql.db"]
+    App\Repository\SqlLiteFollowingRepository:
+        arguments: ["sql.db"]
