@@ -24,14 +24,6 @@ class SqlLiteUserRepository implements UserRepository {
     return $this->usersFrom($this->sqlite->query("SELECT * FROM USERS"));
   }
 
-  private function usersFrom(\SQLite3Result $result) {
-    $users = [];
-    while ($row = $result->fetchArray()) {
-      $users[] = User::build($row["ID"], $row["USERNAME"], $row["ABOUT"], $row["PASSWORD"]);
-    }
-    return $users;
-  }
-
   function getByUsername($username) {
     $select = $this->sqlite->prepare("SELECT * FROM USERS WHERE USERNAME = ?");
     $select->bindValue(1, $username);
@@ -48,6 +40,14 @@ class SqlLiteUserRepository implements UserRepository {
     $insert->bindValue(4, $user->getPassword());
     $insert->execute();
     return $newId;
+  }
+
+  private function usersFrom(\SQLite3Result $result) {
+    $users = [];
+    while ($row = $result->fetchArray()) {
+      $users[] = User::build($row["ID"], $row["USERNAME"], $row["ABOUT"], $row["PASSWORD"]);
+    }
+    return $users;
   }
 
   private function gen_uuid() {
