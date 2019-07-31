@@ -21,17 +21,17 @@ class SqlLiteUserRepositoryTest extends TestCase {
   }
 
   function testStoreAndGet() {
-    $firstStoredId = $this->repository->store(User::newWithoutId("shady90", "shady90 about.", "securePassword"));
-    $this->assertTrue(!is_null($firstStoredId) && !empty($firstStoredId));
-    $secondStoredId = $this->repository->store(User::newWithoutId("maria89", "maria89 about.", "secureAgain"));
-    $this->assertTrue(!is_null($secondStoredId) && !empty($secondStoredId));
+    $shadyId = $this->repository->store(User::newWithoutId("shady90", "shady90 about.", "securePassword"));
+    $this->assertTrue(!is_null($shadyId) && !empty($shadyId));
+    $mariaId = $this->repository->store(User::newWithoutId("maria89", "maria89 about.", "secureAgain"));
+    $this->assertTrue(!is_null($mariaId) && !empty($mariaId));
 
     $users = $this->repository->getAll();
 
     $this->assertEquals(2, sizeof($users));
     $expected = [
-      User::build($firstStoredId, "shady90", "shady90 about.", "securePassword"),
-      User::build($secondStoredId, "maria89", "maria89 about.", "secureAgain")
+      User::build($shadyId, "shady90", "shady90 about.", "securePassword"),
+      User::build($mariaId, "maria89", "maria89 about.", "secureAgain")
     ];
     $this->assertEquals($expected, $users);
 
@@ -39,7 +39,7 @@ class SqlLiteUserRepositoryTest extends TestCase {
     $this->assertNull($foundUser);
 
     $foundUser = $this->repository->getByUsername("maria89");
-    $expected = User::build($secondStoredId, "maria89", "maria89 about.", "secureAgain");
+    $expected = User::build($mariaId, "maria89", "maria89 about.", "secureAgain");
     $this->assertEquals($expected, $foundUser);
   }
 
