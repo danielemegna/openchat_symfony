@@ -4,6 +4,7 @@ namespace App\UseCase;
 
 use App\Repository\UserRepository;
 use App\Repository\FollowingRepository;
+use App\Entity\Following;
 
 class CreateFollowingUseCase {
 
@@ -16,6 +17,7 @@ class CreateFollowingUseCase {
   }
 
   function run($followerId, $followeeId) {
+    $this->followingRepository->store(new Following($followerId, $followeeId));
   }
 
 }

@@ -15,7 +15,8 @@ class FollowingsController extends Controller {
    * @Route("/followings", methods={"POST"})
    */
   public function createFollowing(Request $request, CreateFollowingUseCase $usecase) {
-    $usecase->run("", "");
+    $json = json_decode($request->getContent());
+    $usecase->run($json->followerId, $json->followeeId);
     return new Response("Following created.", 201, ["Content-Type" => "text/plain"]);
   }
 
@@ -24,7 +25,19 @@ class FollowingsController extends Controller {
    */
   public function retrieveFollowees(string $followerId, RetrieveFolloweesUseCase $usecase) {
     $followees = $usecase->run($followerId);
-    return $this->json($followees);
+    return $this->serializeUsers($followees);
+  }
+
+  private function serializeUsers($users) {
+    $responseBody = array_map(function($u) {
+      return [
+        'id' => $u->getId(),
+        'username' => $u->getUsername(),
+        'about' => $u->getAbout()
+      ];
+    }, $users);
+
+    return $this->json($responseBody);
   }
 
 }

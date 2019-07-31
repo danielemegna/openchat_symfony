@@ -30,13 +30,19 @@ class FollowingsApiE2ETest extends BaseE2E {
       "followeeId" => $mariaId
     ]);
 
-    $this->client->request('GET', self::ENDPOINT.'/'.$sandroId.'/followees');
+    $this->client->request('GET', self::ENDPOINT.'/'.$shadyId.'/followees');
     $response = $this->client->getResponse();
     $this->assertEquals(200, $response->getStatusCode());
     $this->assertEquals("application/json", $response->headers->get("content-type"));
-    $this->assertEquals([], json_decode($response->getContent(), true));
+    $actual = json_decode($response->getContent(), true);
+    $expected = [
+      ['id' => $sandroId, 'username' => 'sandro', 'about' => 'About sandro here.'],
+      ['id' => $mariaId, 'username' => 'maria89', 'about' => 'About maria89 here.']
+    ];
+    $this->assertArrayContainsExactlyInAnyOrder($expected, $actual);
 
-    //$this->client->request('GET', self::ENDPOINT.'/'.$shadyId.'/followees');
+    $this->client->request('GET', self::ENDPOINT.'/'.$sandroId.'/followees');
+    $this->assertEquals([], json_decode($this->client->getResponse()->getContent(), true));
   }
 
 }
