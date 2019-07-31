@@ -20,6 +20,13 @@ class InMemoryUserRepository implements UserRepository {
     return array_pop($results);
   }
 
+  function getById($id) {
+    $results = array_filter($this->users, function($u) use ($id) {
+      return $u->getId() === $id;
+    });
+    return array_pop($results);
+  }
+
   function store($user) {
     $toBeStored = User::build(
       uniqid(),
