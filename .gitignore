@@ -17,5 +17,7 @@
 /.web-server-pid
 ###< symfony/web-server-bundle ###
 
+.idea
+
 sql.db
 test.db
