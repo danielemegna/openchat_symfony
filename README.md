@@ -19,3 +19,8 @@ $ php -d memory_limit=-1 composer.phar install
 $ php bin/phpunit
 $ php bin/console server:run 0.0.0.0:4321
 ```
+
+With tmuxinator:
+```
+$ tmuxinator local
+```
