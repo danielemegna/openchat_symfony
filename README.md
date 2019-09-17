@@ -24,3 +24,9 @@ With tmuxinator:
 ```
 $ tmuxinator local
 ```
+
+#### Refactoring notes
+
+- add Error suffix for UsernameAlreadyUsed and InvalidCredentials class
+- remove function gen_uuid duplication
+- remove serialize / deserialize duplications

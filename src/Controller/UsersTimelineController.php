@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\UseCase\CreateFollowingUseCase;
 use App\UseCase\RetrieveFolloweesUseCase;
 use App\UseCase\SubmitPostUseCase;
+use App\Entity\UnexistingUserError;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,18 +20,17 @@ class UsersTimelineController extends Controller {
     $requestBody = json_decode($request->getContent(), true);
     $postText = $requestBody["text"];
 
-    try {
-      $post = $usecase->run($userId, $postText);
-      $responseBody = [
-        "postId" => $post->getId(),
-        "userId" => $post->getUserId(),
-        "text" => $post->getText(),
-        "dateTime" => ""
-      ];
-      return $this->json($responseBody, 201);
-    } catch (\RuntimeException $e) {
+    $publishedPost = $usecase->run($userId, $postText);
+    if($publishedPost instanceof UnexistingUserError)
       return new Response("User not found.", 400, ["Content-Type" => "text/plain"]);
-    }
+
+    $responseBody = [
+      "postId" => $publishedPost->getId(),
+      "userId" => $publishedPost->getUserId(),
+      "text" => $publishedPost->getText(),
+      "dateTime" => ""
+    ];
+    return $this->json($responseBody, 201);
   }
 
 }

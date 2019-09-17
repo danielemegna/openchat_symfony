@@ -22,7 +22,7 @@ class UsersTimelineApiE2ETest extends BaseE2E {
       "text" => "This is the shady90 post."
     ]);
 
-    $this->assertEquals(201, $response->getStatusCode());
+    $this->assertEquals(201, $response->getStatusCode(), $this->getErrorStackTrace());
     $this->assertEquals("application/json", $response->headers->get("content-type"));
     $actual = json_decode($response->getContent(), true);
     $this->assertIsAValidUUID($actual["postId"]);

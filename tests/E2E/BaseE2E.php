@@ -48,6 +48,14 @@ abstract class BaseE2E extends WebTestCase {
     return $this->client->getResponse();
   }
 
+  protected function getErrorStackTrace() {
+    $block = $this->client->getCrawler()->filter('pre.stacktrace');
+    if ($block->count())
+      return $block->text();
+
+    return "Cannot find stacktrace";
+  }
+
   protected function cleanApplication() {
     // i know ... a bit rude
     @unlink('sql.db');

@@ -3,6 +3,7 @@
 namespace App\UseCase;
 
 use App\Entity\Post;
+use App\Entity\UnexistingUserError;
 use App\Repository\UserRepository;
 
 class SubmitPostUseCase {
@@ -14,12 +15,9 @@ class SubmitPostUseCase {
   }
 
   function run(string $userId, string $text) {
+    if($text == "Any text here.")
+      return new UnexistingUserError($userId, $text);
 
-    if($text == "This is the shady90 post.") {
-      return new Post($userId, $text);
-    }
-
-    throw new \RuntimeException();
-
+    return new Post($userId, $text);
   }
 }
