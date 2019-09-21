@@ -15,11 +15,11 @@ class UsersTimelineApiE2ETest extends BaseE2E {
     $this->assertEquals("User not found.", $response->getContent());
   }
 
-  function testFollowAndGetFollowedUsers() {
+  function testRegisterAndSubmitAPost() {
     $shadyId = $this->registerUser('shady90', 'About shady90 here.', 'very$ecure');
 
     $response = $this->postAsJson("/users/$shadyId/timeline", [
-      "text" => "This is the shady90 post."
+      "text" => "This is the first shady90 post."
     ]);
 
     $this->assertEquals(201, $response->getStatusCode(), $this->getErrorStackTrace());
@@ -27,7 +27,7 @@ class UsersTimelineApiE2ETest extends BaseE2E {
     $actual = json_decode($response->getContent(), true);
     $this->assertIsAValidUUID($actual["postId"]);
     $this->assertEquals($shadyId, $actual["userId"]);
-    $this->assertEquals("This is the shady90 post.", $actual["text"]);
+    $this->assertEquals("This is the first shady90 post.", $actual["text"]);
     $this->assertTrue(array_key_exists("dateTime", $actual));
     //"dateTime": "2018-01-10T11:30:00Z"
   }
