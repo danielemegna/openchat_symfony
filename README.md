@@ -11,7 +11,7 @@ This Kata is used by Robert C. Martin and Sandro Mancuso in "London vs. Chicago"
 * https://github.com/sandromancuso/cleancoders_openchat_webclient
 * https://github.com/danielemegna/cleancoders_openchat/tree/openchat-hexagonal
 
-### Dev notes
+## Dev notes
 
 ```
 $ docker run --rm -itp 4321:4321 -v $PWD:/app -w /app php:7.1-alpine sh
