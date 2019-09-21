@@ -1,0 +1,9 @@
+session_name: openchat_symfony
+start_directory: ./
+windows:
+  - window_name: docker
+    panes:
+      - docker run --rm -itp 4321:4321 -v $PWD:/app -w /app php:7.1-alpine sh
+  - window_name: editor
+    panes:
+      - vim .

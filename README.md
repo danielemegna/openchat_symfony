@@ -20,9 +20,14 @@ $ php bin/phpunit
 $ php bin/console server:run 0.0.0.0:4321
 ```
 
-With tmuxinator:
+With tmuxinator
 ```
 $ tmuxinator local
+```
+
+or with tmuxp
+```
+$ tmuxp load .tmuxp.yml
 ```
 
 #### Refactoring notes
