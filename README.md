@@ -13,19 +13,29 @@ This Kata is used by Robert C. Martin and Sandro Mancuso in "London vs. Chicago"
 
 ## Dev notes
 
+
+Prepare dev cli environment
 ```
 $ docker run --rm -itp 4321:4321 -v $PWD:/app -w /app php:7.1-alpine sh
 $ php -d memory_limit=-1 composer.phar install
+```
+
+Run tests with
+```
 $ php bin/phpunit
+```
+
+or run foreground application with
+```
 $ php bin/console server:run 0.0.0.0:4321
 ```
 
-With tmuxinator
+Use tmuxinator
 ```
 $ tmuxinator local
 ```
 
-or with tmuxp
+or tmuxp
 ```
 $ tmuxp load .tmuxp.yml
 ```
