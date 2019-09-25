@@ -36,7 +36,7 @@ class SubmitPostUseCaseTest extends TestCase {
     $this->assertInstanceOf(\DateTime::class, $publishedPost->getDateTime());
   }
 
-  private function assertIsAValidUUID($string) {
+  private function assertIsAValidUUID(string $string) {
     $this->assertRegExp('/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i', $string);
   }
 }

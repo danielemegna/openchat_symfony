@@ -45,3 +45,4 @@ $ tmuxp load .tmuxp.yml
 - add Error suffix for UsernameAlreadyUsed and InvalidCredentials class
 - remove function gen_uuid duplication
 - remove serialize / deserialize duplications
+- remove assertIsAValidUUID duplication
