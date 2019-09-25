@@ -17,8 +17,9 @@ class UsersTimelineController extends Controller {
    * @Route("/users/{userId}/timeline", methods={"POST"})
    */
   public function submitPost(string $userId, Request $request, SubmitPostUseCase $submitPostUseCase) {
-    $requestBody = json_decode($request->getContent(), true);
-    $publishedPost = $submitPostUseCase->run($userId, $requestBody["text"]);
+    $postText = json_decode($request->getContent())->text;
+
+    $publishedPost = $submitPostUseCase->run($userId, $postText);
 
     if($publishedPost instanceof UnexistingUserError)
       return new Response("User not found.", 400, ["Content-Type" => "text/plain"]);
@@ -27,7 +28,7 @@ class UsersTimelineController extends Controller {
       "postId" => $publishedPost->getId(),
       "userId" => $publishedPost->getUserId(),
       "text" => $publishedPost->getText(),
-      "dateTime" => ""
+      "dateTime" => $publishedPost->getDateTime()->format(\DateTime::ISO8601)
     ];
     return $this->json($responseBody, 201);
   }

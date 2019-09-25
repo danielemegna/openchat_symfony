@@ -29,7 +29,7 @@ class UsersTimelineApiE2ETest extends BaseE2E {
     $this->assertEquals($shadyId, $actual["userId"]);
     $this->assertEquals("This is the first shady90 post.", $actual["text"]);
     $this->assertTrue(array_key_exists("dateTime", $actual));
-    //"dateTime": "2018-01-10T11:30:00Z"
+    $this->assertTrue(\DateTime::createFromFormat(\DateTime::ISO8601, $actual["dateTime"]) !== false);
   }
 
 }
