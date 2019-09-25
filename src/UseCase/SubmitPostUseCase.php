@@ -15,9 +15,13 @@ class SubmitPostUseCase {
   }
 
   function run(string $userId, string $text) {
-    if($text == "Any text here.")
+    if(!$this->userExists($userId))
       return new UnexistingUserError($userId, $text);
 
     return new Post($userId, $text);
+  }
+
+  private function userExists($userId) {
+    return !is_null($this->userRepository->getById($userId));
   }
 }
