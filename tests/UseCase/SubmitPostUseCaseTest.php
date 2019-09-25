@@ -25,13 +25,18 @@ class SubmitPostUseCaseTest extends TestCase {
   }
 
   public function testReturnsPublishedPost() {
-    $this->markTestSkipped();
-    $storedUser = User::newWithoutId("username1", "about1", "pass1");
+    $storedUser = User::newWithoutId("username", "about", "pass");
     $storedUserId = $this->userRepository->store($storedUser);
 
     $publishedPost = $this->usecase->run($storedUserId, "Post text.");
 
-    $expected = new Post($storedUserId, "Post text.");
-    $this->assertEquals($expected, $publishedPost);
+    $this->assertIsAValidUUID($publishedPost->getId());
+    $this->assertEquals($storedUserId, $publishedPost->getUserId());
+    $this->assertEquals("Post text.", $publishedPost->getText());
+    $this->assertInstanceOf(\DateTime::class, $publishedPost->getDateTime());
+  }
+
+  private function assertIsAValidUUID($string) {
+    $this->assertRegExp('/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i', $string);
   }
 }
