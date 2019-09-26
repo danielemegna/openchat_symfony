@@ -16,6 +16,8 @@ class SubmitPostUseCase {
   function run(string $userId, string $text) {
     if(!$this->userExists($userId))
       return new UnexistingUserError($userId, $text);
+    if(strpos($text, 'elephants') !== false)
+      return new InappropriateLanguageError($userId, $text);
 
     return Post::build($this->gen_uuid(), $userId, $text, new \DateTime());
   }
@@ -48,6 +50,12 @@ class SubmitPostUseCase {
 }
 
 final class UnexistingUserError extends Post {
+  public function __construct(string $userId, string $text) {
+    parent::newWithoutIdAndDate($userId, $text);
+  }
+}
+
+final class InappropriateLanguageError extends Post {
   public function __construct(string $userId, string $text) {
     parent::newWithoutIdAndDate($userId, $text);
   }

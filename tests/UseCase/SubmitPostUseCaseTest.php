@@ -5,6 +5,7 @@ namespace App\Tests\UseCase;
 use PHPUnit\Framework\TestCase;
 use App\UseCase\SubmitPostUseCase;
 use App\UseCase\UnexistingUserError;
+use App\UseCase\InappropriateLanguageError;
 use App\Entity\User;
 use App\Entity\Post;
 use App\Tests\Repository\InMemoryUserRepository;
@@ -24,6 +25,11 @@ class SubmitPostUseCaseTest extends TestCase {
   public function testReturnsUnexistingUserErrorWithUnexistingUserId() {
     $publishedPost = $this->usecase->run("unexistingUserId", "Post text.");
     $this->assertInstanceOf(UnexistingUserError::class, $publishedPost);
+  }
+
+  public function testReturnsInappropriateLanguageErrorWithInappropriatePostTexts() {
+    $publishedPost = $this->usecase->run($this->storedUserId, "I do not like elephants.");
+    $this->assertInstanceOf(InappropriateLanguageError::class, $publishedPost);
   }
 
   public function testReturnsPublishedPost() {

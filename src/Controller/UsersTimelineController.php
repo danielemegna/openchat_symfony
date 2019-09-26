@@ -6,6 +6,7 @@ use App\UseCase\CreateFollowingUseCase;
 use App\UseCase\RetrieveFolloweesUseCase;
 use App\UseCase\SubmitPostUseCase;
 use App\UseCase\UnexistingUserError;
+use App\UseCase\InappropriateLanguageError;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,7 +25,7 @@ class UsersTimelineController extends Controller {
     if($publishedPost instanceof UnexistingUserError)
       return new Response("User not found.", 400, ["Content-Type" => "text/plain"]);
 
-    if(strpos($publishedPost->getText(), 'elephants') !== false)
+    if($publishedPost instanceof InappropriateLanguageError)
       return new Response("Post contains inappropriate language.", 400, ["Content-Type" => "text/plain"]);
 
     $responseBody = [
