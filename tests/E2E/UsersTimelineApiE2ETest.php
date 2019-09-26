@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class UsersTimelineApiE2ETest extends BaseE2E {
 
-  function testWithoutRegisteredUser() {
+  function testUnexisingUserPostSubmitAttempt() {
     $response = $this->postAsJson("/users/c41e0a83-08ff-444a-98d3-270d1fa2bdae/timeline", [
       "text" => "Any text here."
     ]);
