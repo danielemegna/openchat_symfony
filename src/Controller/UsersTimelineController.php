@@ -24,6 +24,9 @@ class UsersTimelineController extends Controller {
     if($publishedPost instanceof UnexistingUserError)
       return new Response("User not found.", 400, ["Content-Type" => "text/plain"]);
 
+    if(strpos($publishedPost->getText(), 'elephants') !== false)
+      return new Response("Post contains inappropriate language.", 400, ["Content-Type" => "text/plain"]);
+
     $responseBody = [
       "postId" => $publishedPost->getId(),
       "userId" => $publishedPost->getUserId(),
