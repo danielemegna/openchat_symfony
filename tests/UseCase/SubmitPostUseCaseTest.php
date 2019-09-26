@@ -13,10 +13,12 @@ class SubmitPostUseCaseTest extends TestCase {
 
   private $userRepository;
   private $usecase;
+  private $storedUserId;
 
   protected function setUp() {
     $this->userRepository = new InMemoryUserRepository();
     $this->usecase = new SubmitPostUseCase($this->userRepository);
+    $this->storedUserId = $this->userRepository->store(User::newWithoutId("username", "about", "pass"));
   }
 
   public function testReturnsUnexistingUserErrorWithUnexistingUserId() {
@@ -25,13 +27,10 @@ class SubmitPostUseCaseTest extends TestCase {
   }
 
   public function testReturnsPublishedPost() {
-    $storedUser = User::newWithoutId("username", "about", "pass");
-    $storedUserId = $this->userRepository->store($storedUser);
-
-    $publishedPost = $this->usecase->run($storedUserId, "Post text.");
+    $publishedPost = $this->usecase->run($this->storedUserId, "Post text.");
 
     $this->assertIsAValidUUID($publishedPost->getId());
-    $this->assertEquals($storedUserId, $publishedPost->getUserId());
+    $this->assertEquals($this->storedUserId, $publishedPost->getUserId());
     $this->assertEquals("Post text.", $publishedPost->getText());
     $this->assertInstanceOf(\DateTime::class, $publishedPost->getDateTime());
   }
