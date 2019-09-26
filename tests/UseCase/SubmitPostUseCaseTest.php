@@ -4,9 +4,9 @@ namespace App\Tests\UseCase;
 
 use PHPUnit\Framework\TestCase;
 use App\UseCase\SubmitPostUseCase;
+use App\UseCase\UnexistingUserError;
 use App\Entity\User;
 use App\Entity\Post;
-use App\Entity\UnexistingUserError;
 use App\Tests\Repository\InMemoryUserRepository;
 
 class SubmitPostUseCaseTest extends TestCase {

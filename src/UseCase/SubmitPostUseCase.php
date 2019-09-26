@@ -3,7 +3,6 @@
 namespace App\UseCase;
 
 use App\Entity\Post;
-use App\Entity\UnexistingUserError;
 use App\Repository\UserRepository;
 
 class SubmitPostUseCase {
@@ -45,5 +44,11 @@ class SubmitPostUseCase {
       // 48 bits for "node"
       mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff )
     );
+  }
+}
+
+final class UnexistingUserError extends Post {
+  public function __construct(string $userId, string $text) {
+    parent::newWithoutIdAndDate($userId, $text);
   }
 }
