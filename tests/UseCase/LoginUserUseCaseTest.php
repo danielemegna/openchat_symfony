@@ -4,8 +4,8 @@ namespace App\Tests\UseCase;
 
 use PHPUnit\Framework\TestCase;
 use App\UseCase\LoginUserUseCase;
+use App\UseCase\InvalidCredentials;
 use App\Entity\User;
-use App\Entity\InvalidCredentials;
 use App\Tests\Repository\InMemoryUserRepository;
 
 class LoginUserUseCaseTest extends TestCase {

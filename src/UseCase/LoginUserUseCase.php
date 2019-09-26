@@ -3,7 +3,6 @@
 namespace App\UseCase;
 
 use App\Entity\User;
-use App\Entity\InvalidCredentials;
 use App\Repository\UserRepository;
 
 class LoginUserUseCase {
@@ -24,4 +23,13 @@ class LoginUserUseCase {
 
     return $user;
   }
+}
+
+final class InvalidCredentials extends User {
+  function __construct(string $username, string $password) {
+    $this->username = $username;
+    $this->password = $password;
+  }
+  public function getId() { return null; }
+  public function getAbout() { return null; }
 }

@@ -4,8 +4,8 @@ namespace App\Tests\UseCase;
 
 use PHPUnit\Framework\TestCase;
 use App\UseCase\RegisterUserUseCase;
+use App\UseCase\UsernameAlreadyUsed;
 use App\Entity\User;
-use App\Entity\UsernameAlreadyUsed;
 use App\Tests\Repository\InMemoryUserRepository;
 
 class RegisterUserUseCaseTest extends TestCase {

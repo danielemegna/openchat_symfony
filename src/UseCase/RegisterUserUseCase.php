@@ -3,7 +3,6 @@
 namespace App\UseCase;
 
 use App\Entity\User;
-use App\Entity\UsernameAlreadyUsed;
 use App\Repository\UserRepository;
 
 class RegisterUserUseCase {
@@ -27,4 +26,13 @@ class RegisterUserUseCase {
       $user->getPassword()
     );
   }
+}
+
+final class UsernameAlreadyUsed extends User {
+  function __construct(string $username) {
+    $this->username = $username;
+  }
+  public function getId() { return null; }
+  public function getAbout() { return null; }
+  public function getPassword() { return null; }
 }
