@@ -16,7 +16,7 @@ class SubmitPostUseCase {
   function run(string $userId, string $text) {
     if(!$this->userExists($userId))
       return new UnexistingUserError($userId, $text);
-    if(strpos($text, 'elephants') !== false)
+    if($this->hasInappropriateLanguage($text))
       return new InappropriateLanguageError($userId, $text);
 
     return Post::build($this->gen_uuid(), $userId, $text, new \DateTime());
@@ -24,6 +24,17 @@ class SubmitPostUseCase {
 
   private function userExists($userId) {
     return !is_null($this->userRepository->getById($userId));
+  }
+
+  private function hasInappropriateLanguage($text) {
+    $inappropriateWords = ['elephants', 'orange', 'ice cream'];
+
+    foreach($inappropriateWords as $inappropriateWord) {
+      if(strpos(strtolower($text), $inappropriateWord) !== false)
+        return true;
+    }
+
+    return false;
   }
 
   private function gen_uuid() {

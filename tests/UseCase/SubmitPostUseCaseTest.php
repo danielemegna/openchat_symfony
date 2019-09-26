@@ -30,6 +30,12 @@ class SubmitPostUseCaseTest extends TestCase {
   public function testReturnsInappropriateLanguageErrorWithInappropriatePostTexts() {
     $publishedPost = $this->usecase->run($this->storedUserId, "I do not like elephants.");
     $this->assertInstanceOf(InappropriateLanguageError::class, $publishedPost);
+    $publishedPost = $this->usecase->run($this->storedUserId, "I hate orange juice.");
+    $this->assertInstanceOf(InappropriateLanguageError::class, $publishedPost);
+    $publishedPost = $this->usecase->run($this->storedUserId, "I would like an ice cream.");
+    $this->assertInstanceOf(InappropriateLanguageError::class, $publishedPost);
+    $publishedPost = $this->usecase->run($this->storedUserId, "ORANGE IS A BAD FRUIT!");
+    $this->assertInstanceOf(InappropriateLanguageError::class, $publishedPost);
   }
 
   public function testReturnsPublishedPost() {
