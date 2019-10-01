@@ -15,7 +15,7 @@ class RegisterUserUseCase {
 
   function run($user) {
     if($this->userRepository->getByUsername($user->getUsername()) !== null) {
-      return new UsernameAlreadyUsed($user->getUsername());
+      return new UsernameAlreadyUsedError($user->getUsername());
     }
 
     $storedId = $this->userRepository->store($user);
@@ -28,7 +28,7 @@ class RegisterUserUseCase {
   }
 }
 
-final class UsernameAlreadyUsed extends User {
+final class UsernameAlreadyUsedError extends User {
   function __construct(string $username) {
     $this->username = $username;
   }

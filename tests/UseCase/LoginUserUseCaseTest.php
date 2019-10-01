@@ -4,7 +4,7 @@ namespace App\Tests\UseCase;
 
 use PHPUnit\Framework\TestCase;
 use App\UseCase\LoginUserUseCase;
-use App\UseCase\InvalidCredentials;
+use App\UseCase\InvalidCredentialsError;
 use App\Entity\User;
 use App\Tests\Repository\InMemoryUserRepository;
 
@@ -31,11 +31,11 @@ class LoginUserUseCaseTest extends TestCase {
 
   public function testProduceInvalidCredentialsOnWrongCredentials() {
     $loggedUser = $this->usecase->run("invalid", "credentials");
-    $this->assertInstanceOf(InvalidCredentials::class, $loggedUser);
+    $this->assertInstanceOf(InvalidCredentialsError::class, $loggedUser);
     $loggedUser = $this->usecase->run("shady11", "veryS3cure");
-    $this->assertInstanceOf(InvalidCredentials::class, $loggedUser);
+    $this->assertInstanceOf(InvalidCredentialsError::class, $loggedUser);
     $loggedUser = $this->usecase->run("shady90", "wrongPassword");
-    $this->assertInstanceOf(InvalidCredentials::class, $loggedUser);
+    $this->assertInstanceOf(InvalidCredentialsError::class, $loggedUser);
   }
 
 }

@@ -16,16 +16,14 @@ class LoginUserUseCase {
   function run($username, $password) {
     $user = $this->userRepository->getByUsername($username);
 
-    if($user === null)
-      return new InvalidCredentials($username, $password);
-    if($user->getPassword() !== $password)
-      return new InvalidCredentials($username, $password);
+    if($user === null || $user->getPassword() !== $password)
+      return new InvalidCredentialsError($username, $password);
 
     return $user;
   }
 }
 
-final class InvalidCredentials extends User {
+final class InvalidCredentialsError extends User {
   function __construct(string $username, string $password) {
     $this->username = $username;
     $this->password = $password;

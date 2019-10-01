@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\UseCase\UsernameAlreadyUsed;
+use App\UseCase\UsernameAlreadyUsedError;
 use App\UseCase\RegisterUserUseCase;
 use App\UseCase\RetrieveUsersUseCase;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -28,7 +28,7 @@ class UsersController extends Controller {
     $userToBeRegistered = $this->deserializeUser($request->getContent());
     $createdUser = $usecase->run($userToBeRegistered);
 
-    if($createdUser instanceof UsernameAlreadyUsed)
+    if($createdUser instanceof UsernameAlreadyUsedError)
       return new Response('Username already in use.', 400, ['Content-Type' => 'text/plain']);
 
     return $this->serializeUser($createdUser);

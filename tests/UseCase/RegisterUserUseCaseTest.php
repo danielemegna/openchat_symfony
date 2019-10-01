@@ -4,7 +4,7 @@ namespace App\Tests\UseCase;
 
 use PHPUnit\Framework\TestCase;
 use App\UseCase\RegisterUserUseCase;
-use App\UseCase\UsernameAlreadyUsed;
+use App\UseCase\UsernameAlreadyUsedError;
 use App\Entity\User;
 use App\Tests\Repository\InMemoryUserRepository;
 
@@ -35,7 +35,7 @@ class RegisterUserUseCaseTest extends TestCase {
     $registeredUser = $this->usecase->run(User::newWithoutId("username", "about", "pass"));
     $registeredUser = $this->usecase->run(User::newWithoutId("username", "different", "password"));
 
-    $this->assertInstanceOf(UsernameAlreadyUsed::class, $registeredUser);
+    $this->assertInstanceOf(UsernameAlreadyUsedError::class, $registeredUser);
   }
 
 }

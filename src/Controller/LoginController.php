@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\UseCase\InvalidCredentials;
+use App\UseCase\InvalidCredentialsError;
 use App\UseCase\LoginUserUseCase;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,7 +19,7 @@ class LoginController extends Controller {
     $requestBody = json_decode($request->getContent());
 
     $loggedUser = $usecase->run($requestBody->username, $requestBody->password);
-    if($loggedUser instanceof InvalidCredentials)
+    if($loggedUser instanceof InvalidCredentialsError)
       return new Response('Invalid credentials.', 404, ['Content-Type' => 'text/plain']);
 
     return $this->serializeUser($loggedUser);

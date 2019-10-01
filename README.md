@@ -42,7 +42,6 @@ $ tmuxp load .tmuxp.yml
 
 #### Refactoring notes
 
-- add Error suffix for UsernameAlreadyUsed and InvalidCredentials class
 - remove function gen_uuid duplication
 - remove serialize / deserialize duplications
 - remove assertIsAValidUUID duplication
