@@ -2,11 +2,10 @@
 
 namespace App\Controller;
 
-use App\UseCase\CreateFollowingUseCase;
-use App\UseCase\RetrieveFolloweesUseCase;
 use App\UseCase\SubmitPostUseCase;
 use App\UseCase\UnexistingUserError;
 use App\UseCase\InappropriateLanguageError;
+use App\UseCase\GetTimelineUseCase;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -41,8 +40,8 @@ class UsersTimelineController extends Controller {
   /**
    * @Route("/users/{userId}/timeline", methods={"GET"})
    */
-  public function getUserTimeline(string $userId) {
-    $responseBody = [];
+  public function getUserTimeline(string $userId, GetTimelineUseCase $getTimelineUseCase) {
+    $responseBody = $getTimelineUseCase->run($userId);
     return $this->json($responseBody, 200);
   }
 
