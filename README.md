@@ -45,3 +45,4 @@ $ tmuxp load .tmuxp.yml
 - remove function gen_uuid duplication
 - remove serialize / deserialize duplications
 - remove assertIsAValidUUID duplication
+- merge status code and content type E2E assertions

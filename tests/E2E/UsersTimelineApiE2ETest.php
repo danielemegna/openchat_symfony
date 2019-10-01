@@ -6,8 +6,10 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class UsersTimelineApiE2ETest extends BaseE2E {
 
+  private $UNEXISTING_USER_ID = "c41e0a83-08ff-444a-98d3-270d1fa2bdae";
+
   function testUnexisingUserPostSubmitAttempt() {
-    $response = $this->postAsJson("/users/c41e0a83-08ff-444a-98d3-270d1fa2bdae/timeline", [
+    $response = $this->postAsJson("/users/$this->UNEXISTING_USER_ID/timeline", [
       "text" => "Any text here."
     ]);
     $this->assertEquals(400, $response->getStatusCode());
@@ -27,7 +29,7 @@ class UsersTimelineApiE2ETest extends BaseE2E {
     $this->assertEquals("Post contains inappropriate language.", $response->getContent());
   }
 
-  function testRegisterAndSubmitAPost() {
+  function testSubmitPostAndGetTimeline() {
     $shadyId = $this->registerUser('shady90', 'About shady90 here.', 'very$ecure');
 
     $response = $this->postAsJson("/users/$shadyId/timeline", [
@@ -36,11 +38,23 @@ class UsersTimelineApiE2ETest extends BaseE2E {
 
     $this->assertEquals(201, $response->getStatusCode(), $this->getErrorStackTrace());
     $this->assertEquals("application/json", $response->headers->get("content-type"));
-    $actual = json_decode($response->getContent(), true);
-    $this->assertIsAValidUUID($actual["postId"]);
-    $this->assertEquals($shadyId, $actual["userId"]);
-    $this->assertEquals("This is the first shady90 post.", $actual["text"]);
-    $this->assertTrue(\DateTime::createFromFormat(\DateTime::ISO8601, $actual["dateTime"]) !== false);
+    $publishedPost = json_decode($response->getContent(), true);
+    $this->assertIsAValidUUID($publishedPost["postId"]);
+    $this->assertEquals($shadyId, $publishedPost["userId"]);
+    $this->assertEquals("This is the first shady90 post.", $publishedPost["text"]);
+    $this->assertTrue(\DateTime::createFromFormat(\DateTime::ISO8601, $publishedPost["dateTime"]) !== false);
+
+    $this->postAsJson("/users/$shadyId/timeline", [
+      "text" => "Second shady90 post here."
+    ]);
+
+    $this->client->request('GET', "/users/$this->UNEXISTING_USER_ID/timeline");
+
+    $response = $this->client->getResponse();
+    $this->assertEquals(200, $response->getStatusCode());
+    $this->assertEquals("application/json", $response->headers->get("content-type"));
+    $timelinePosts = json_decode($response->getContent(), true);
+    $this->assertEquals([], $timelinePosts);
   }
 
 }

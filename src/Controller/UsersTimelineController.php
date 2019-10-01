@@ -37,4 +37,13 @@ class UsersTimelineController extends Controller {
     return $this->json($responseBody, 201);
   }
 
+
+  /**
+   * @Route("/users/{userId}/timeline", methods={"GET"})
+   */
+  public function getUserTimeline(string $userId) {
+    $responseBody = [];
+    return $this->json($responseBody, 200);
+  }
+
 }
