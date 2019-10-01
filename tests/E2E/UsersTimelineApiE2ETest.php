@@ -38,23 +38,37 @@ class UsersTimelineApiE2ETest extends BaseE2E {
 
     $this->assertEquals(201, $response->getStatusCode(), $this->getErrorStackTrace());
     $this->assertEquals("application/json", $response->headers->get("content-type"));
-    $publishedPost = json_decode($response->getContent(), true);
-    $this->assertIsAValidUUID($publishedPost["postId"]);
-    $this->assertEquals($shadyId, $publishedPost["userId"]);
-    $this->assertEquals("This is the first shady90 post.", $publishedPost["text"]);
-    $this->assertTrue(\DateTime::createFromFormat(\DateTime::ISO8601, $publishedPost["dateTime"]) !== false);
+    $firstPublishedPost = json_decode($response->getContent(), true);
+    $this->assertIsAValidUUID($firstPublishedPost["postId"]);
+    $this->assertEquals($shadyId, $firstPublishedPost["userId"]);
+    $this->assertEquals("This is the first shady90 post.", $firstPublishedPost["text"]);
+    $this->assertTrue(\DateTime::createFromFormat(\DateTime::ISO8601, $firstPublishedPost["dateTime"]) !== false);
 
-    $this->postAsJson("/users/$shadyId/timeline", [
+    $response = $this->postAsJson("/users/$shadyId/timeline", [
       "text" => "Second shady90 post here."
     ]);
+    $secondPublishedPost = json_decode($response->getContent(), true);
 
-    $this->client->request('GET', "/users/$this->UNEXISTING_USER_ID/timeline");
+    $this->client->request('GET', "/users/$shadyId/timeline");
 
     $response = $this->client->getResponse();
     $this->assertEquals(200, $response->getStatusCode());
     $this->assertEquals("application/json", $response->headers->get("content-type"));
     $timelinePosts = json_decode($response->getContent(), true);
-    $this->assertEquals([], $timelinePosts);
+
+    return // TODO to be completed
+
+    $expectedPosts = [[
+        "postId" => $secondPublishedPost["postId"], "userId" => $shadyId,
+        "text" => "Second shady90 post here", "dateTime" => $secondPublishedPost["postId"]
+    ],[
+        "postId" => $firstPublishedPost["postId"], "userId" => $shadyId,
+        "text" => "This is the first shady90 post.", "dateTime" => $firstPublishedPost["postId"]
+    ]];
+    $this->assertEquals($expectedPosts, $timelinePosts);
+
+    $this->client->request('GET', "/users/$this->UNEXISTING_USER_ID/timeline");
+    $this->assertEquals([], $json_decode($this->client->getResponse()->getContent()));
   }
 
 }
