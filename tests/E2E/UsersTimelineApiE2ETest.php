@@ -15,6 +15,18 @@ class UsersTimelineApiE2ETest extends BaseE2E {
     $this->assertEquals("User not found.", $response->getContent());
   }
 
+  function testInappropriateLanguagePostSubmitAttempt() {
+    $shadyId = $this->registerUser('shady90', 'About shady90 here.', 'very$ecure');
+
+    $response = $this->postAsJson("/users/$shadyId/timeline", [
+      "text" => "I do not like elephants."
+    ]);
+
+    $this->assertEquals(400, $response->getStatusCode());
+    $this->assertEquals("text/plain; charset=UTF-8", $response->headers->get("content-type"));
+    $this->assertEquals("Post contains inappropriate language.", $response->getContent());
+  }
+
   function testRegisterAndSubmitAPost() {
     $shadyId = $this->registerUser('shady90', 'About shady90 here.', 'very$ecure');
 
@@ -29,18 +41,6 @@ class UsersTimelineApiE2ETest extends BaseE2E {
     $this->assertEquals($shadyId, $actual["userId"]);
     $this->assertEquals("This is the first shady90 post.", $actual["text"]);
     $this->assertTrue(\DateTime::createFromFormat(\DateTime::ISO8601, $actual["dateTime"]) !== false);
-  }
-
-  function testInappropriateLanguagePostSubmitAttempt() {
-    $shadyId = $this->registerUser('shady90', 'About shady90 here.', 'very$ecure');
-
-    $response = $this->postAsJson("/users/$shadyId/timeline", [
-      "text" => "I do not like elephants."
-    ]);
-
-    $this->assertEquals(400, $response->getStatusCode());
-    $this->assertEquals("text/plain; charset=UTF-8", $response->headers->get("content-type"));
-    $this->assertEquals("Post contains inappropriate language.", $response->getContent());
   }
 
 }
