@@ -35,10 +35,10 @@ class UsersTimelineApiE2ETest extends BaseE2E {
     $response = $this->postAsJson("/users/$shadyId/timeline", [
       "text" => "This is the first shady90 post."
     ]);
+    $firstPublishedPost = json_decode($response->getContent(), true);
 
     $this->assertStatusCode(201, $response);
     $this->assertEquals("application/json", $response->headers->get("content-type"));
-    $firstPublishedPost = json_decode($response->getContent(), true);
     $this->assertIsAValidUUID($firstPublishedPost["postId"]);
     $this->assertEquals($shadyId, $firstPublishedPost["userId"]);
     $this->assertEquals("This is the first shady90 post.", $firstPublishedPost["text"]);
@@ -55,20 +55,21 @@ class UsersTimelineApiE2ETest extends BaseE2E {
     $this->assertStatusCode(200, $response);
     $this->assertEquals("application/json", $response->headers->get("content-type"));
     $timelinePosts = json_decode($response->getContent(), true);
-
-    return // TODO to be completed
-
     $expectedPosts = [[
         "postId" => $secondPublishedPost["postId"], "userId" => $shadyId,
-        "text" => "Second shady90 post here", "dateTime" => $secondPublishedPost["postId"]
+        "text" => "Second shady90 post here.", "dateTime" => $secondPublishedPost["dateTime"]
     ],[
         "postId" => $firstPublishedPost["postId"], "userId" => $shadyId,
-        "text" => "This is the first shady90 post.", "dateTime" => $firstPublishedPost["postId"]
+        "text" => "This is the first shady90 post.", "dateTime" => $firstPublishedPost["dateTime"]
     ]];
     $this->assertEquals($expectedPosts, $timelinePosts);
+  }
 
+  function testUnexisingUserGetTimelineAttempt() {
     $this->client->request('GET', "/users/$this->UNEXISTING_USER_ID/timeline");
-    $this->assertEquals([], $json_decode($this->client->getResponse()->getContent()));
+    $response = $this->client->getResponse();
+    $this->assertStatusCode(200, $response);
+    $this->assertEquals([], json_decode($response->getContent()));
   }
 
   private function assertIsAValidISO8601DateTime(string $value) {

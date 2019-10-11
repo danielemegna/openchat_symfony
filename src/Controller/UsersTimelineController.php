@@ -40,7 +40,16 @@ class UsersTimelineController extends Controller {
    * @Route("/users/{userId}/timeline", methods={"GET"})
    */
   public function getUserTimeline(string $userId, GetTimelineUseCase $getTimelineUseCase) {
-    $responseBody = $getTimelineUseCase->run($userId);
+    $userPosts = $getTimelineUseCase->run($userId);
+    $responseBody = array_map(function($p) {
+      return [
+        "postId" => $p->getId(),
+        "userId" => $p->getUserId(),
+        "text" => $p->getText(),
+        "dateTime" => $p->getDateTime()->format(\DateTime::ISO8601)
+      ];
+    }, $userPosts);
+
     return $this->json($responseBody, 200);
   }
 
