@@ -9,16 +9,20 @@ use App\UseCase\InappropriateLanguageError;
 use App\Entity\User;
 use App\Entity\Post;
 use App\Tests\Repository\InMemoryUserRepository;
+use App\Repository\PostRepository;
 
 class SubmitPostUseCaseTest extends TestCase {
 
   private $userRepository;
+  private $postRepository;
   private $usecase;
   private $storedUserId;
 
   protected function setUp() {
     $this->userRepository = new InMemoryUserRepository();
-    $this->usecase = new SubmitPostUseCase($this->userRepository);
+    $this->postRepository = $this->createMock(PostRepository::class);
+    $this->postRepository->method('store')->willReturn('7c74136e-edc8-4c6e-ad0b-f94b0770e18c');
+    $this->usecase = new SubmitPostUseCase($this->userRepository, $this->postRepository);
     $this->storedUserId = $this->userRepository->store(User::newWithoutId("username", "about", "pass"));
   }
 
@@ -45,6 +49,20 @@ class SubmitPostUseCaseTest extends TestCase {
     $this->assertEquals($this->storedUserId, $publishedPost->getUserId());
     $this->assertEquals("Post text.", $publishedPost->getText());
     $this->assertInstanceOf(\DateTime::class, $publishedPost->getDateTime());
+  }
+
+  public function testStoresPostUsingPostRepository() {
+    $this->postRepository
+      ->expects($this->once())->method('store')
+      ->with($this->callback(function ($post) {
+        $this->assertNull($post->getId());
+        $this->assertEquals($this->storedUserId, $post->getUserId());
+        $this->assertEquals("Post text.", $post->getText());
+        $this->assertNotNull($post->getDateTime());
+        return true;
+      }));
+
+    $this->runUseCaseWith($this->storedUserId, "Post text.");
   }
 
   private function runUseCaseWith($userId, $postText) {
