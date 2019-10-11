@@ -42,7 +42,7 @@ class UsersTimelineApiE2ETest extends BaseE2E {
     $this->assertIsAValidUUID($firstPublishedPost["postId"]);
     $this->assertEquals($shadyId, $firstPublishedPost["userId"]);
     $this->assertEquals("This is the first shady90 post.", $firstPublishedPost["text"]);
-    $this->assertTrue(\DateTime::createFromFormat(\DateTime::ISO8601, $firstPublishedPost["dateTime"]) !== false);
+    $this->assertIsAValidISO8601DateTime($firstPublishedPost["dateTime"]);
 
     $response = $this->postAsJson("/users/$shadyId/timeline", [
       "text" => "Second shady90 post here."
@@ -69,6 +69,10 @@ class UsersTimelineApiE2ETest extends BaseE2E {
 
     $this->client->request('GET', "/users/$this->UNEXISTING_USER_ID/timeline");
     $this->assertEquals([], $json_decode($this->client->getResponse()->getContent()));
+  }
+
+  private function assertIsAValidISO8601DateTime(string $value) {
+    $this->assertTrue(\DateTime::createFromFormat(\DateTime::ISO8601, $value) !== false);
   }
 
 }
