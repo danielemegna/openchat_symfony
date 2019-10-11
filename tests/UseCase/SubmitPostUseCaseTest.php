@@ -45,7 +45,7 @@ class SubmitPostUseCaseTest extends TestCase {
   public function testReturnsPublishedPost() {
     $publishedPost = $this->runUseCaseWith($this->storedUserId, "Post text.");
 
-    $this->assertIsAValidUUID($publishedPost->getId());
+    $this->assertEquals('7c74136e-edc8-4c6e-ad0b-f94b0770e18c', $publishedPost->getId());
     $this->assertEquals($this->storedUserId, $publishedPost->getUserId());
     $this->assertEquals("Post text.", $publishedPost->getText());
     $this->assertInstanceOf(\DateTime::class, $publishedPost->getDateTime());
