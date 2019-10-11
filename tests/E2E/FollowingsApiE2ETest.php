@@ -17,7 +17,7 @@ class FollowingsApiE2ETest extends BaseE2E {
       "followerId" => $mariaId,
       "followeeId" => $shadyId
     ]);
-    $this->assertEquals(201, $response->getStatusCode());
+    $this->assertStatusCode(201, $response);
     $this->assertEquals("text/plain; charset=UTF-8", $response->headers->get("content-type"));
     $this->assertEquals("Following created.", $response->getContent());
 
@@ -32,7 +32,7 @@ class FollowingsApiE2ETest extends BaseE2E {
 
     $this->client->request('GET', self::ENDPOINT.'/'.$shadyId.'/followees');
     $response = $this->client->getResponse();
-    $this->assertEquals(200, $response->getStatusCode());
+    $this->assertStatusCode(200, $response);
     $this->assertEquals("application/json", $response->headers->get("content-type"));
     $actual = json_decode($response->getContent(), true);
     $expected = [

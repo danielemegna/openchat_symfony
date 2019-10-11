@@ -12,7 +12,7 @@ class UsersTimelineApiE2ETest extends BaseE2E {
     $response = $this->postAsJson("/users/$this->UNEXISTING_USER_ID/timeline", [
       "text" => "Any text here."
     ]);
-    $this->assertEquals(400, $response->getStatusCode());
+    $this->assertStatusCode(400, $response);
     $this->assertEquals("text/plain; charset=UTF-8", $response->headers->get("content-type"));
     $this->assertEquals("User not found.", $response->getContent());
   }
@@ -24,7 +24,7 @@ class UsersTimelineApiE2ETest extends BaseE2E {
       "text" => "I do not like elephants."
     ]);
 
-    $this->assertEquals(400, $response->getStatusCode());
+    $this->assertStatusCode(400, $response);
     $this->assertEquals("text/plain; charset=UTF-8", $response->headers->get("content-type"));
     $this->assertEquals("Post contains inappropriate language.", $response->getContent());
   }
@@ -36,7 +36,7 @@ class UsersTimelineApiE2ETest extends BaseE2E {
       "text" => "This is the first shady90 post."
     ]);
 
-    $this->assertEquals(201, $response->getStatusCode(), $this->getErrorStackTrace());
+    $this->assertStatusCode(201, $response);
     $this->assertEquals("application/json", $response->headers->get("content-type"));
     $firstPublishedPost = json_decode($response->getContent(), true);
     $this->assertIsAValidUUID($firstPublishedPost["postId"]);
@@ -52,7 +52,7 @@ class UsersTimelineApiE2ETest extends BaseE2E {
     $this->client->request('GET', "/users/$shadyId/timeline");
 
     $response = $this->client->getResponse();
-    $this->assertEquals(200, $response->getStatusCode());
+    $this->assertStatusCode(200, $response);
     $this->assertEquals("application/json", $response->headers->get("content-type"));
     $timelinePosts = json_decode($response->getContent(), true);
 

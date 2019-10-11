@@ -16,7 +16,7 @@ class LoginApiE2ETest extends BaseE2E {
       'password' => 'wrongPassword'
     ]);
 
-    $this->assertEquals(404, $response->getStatusCode());
+    $this->assertStatusCode(404, $response);
     $this->assertEquals("text/plain; charset=UTF-8", $response->headers->get("content-type"));
     $this->assertEquals("Invalid credentials.", $response->getContent());
 
@@ -25,7 +25,7 @@ class LoginApiE2ETest extends BaseE2E {
       'password' => 'very$ecure'
     ]);
 
-    $this->assertEquals(200, $response->getStatusCode());
+    $this->assertStatusCode(200, $response);
     $this->assertEquals("application/json", $response->headers->get("content-type"));
     $responseBody = json_decode($response->getContent(), true);
     $this->assertEquals($shadyId, $responseBody["id"]);

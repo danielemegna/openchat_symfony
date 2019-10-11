@@ -48,7 +48,11 @@ abstract class BaseE2E extends WebTestCase {
     return $this->client->getResponse();
   }
 
-  protected function getErrorStackTrace() {
+  protected function assertStatusCode($expected, $response) {
+    $this->assertEquals($expected, $response->getStatusCode(), $this->getErrorStackTrace());
+  }
+
+  private function getErrorStackTrace() {
     $block = $this->client->getCrawler()->filter('pre.stacktrace');
     if ($block->count())
       return $block->text();

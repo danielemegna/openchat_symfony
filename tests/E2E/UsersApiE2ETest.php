@@ -27,7 +27,7 @@ class UsersApiE2ETest extends BaseE2E {
     $this->client->request('GET', self::ENDPOINT);
 
     $response = $this->client->getResponse();
-    $this->assertEquals(200, $response->getStatusCode());
+    $this->assertStatusCode(200, $response);
     $this->assertEquals("application/json", $response->headers->get("content-type"));
     return json_decode($response->getContent(), true);
   }
