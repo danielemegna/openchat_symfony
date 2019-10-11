@@ -9,6 +9,10 @@ class Post {
   private $text;
   private $dateTime;
 
+  public static function newWithoutId(string $userId, string $text, \DateTime $dateTime) {
+    return new Post(null, $userId, $text, $dateTime);
+  }
+
   public static function newWithoutIdAndDate(string $userId, string $text) {
     return new Post(null, $userId, $text, null);
   }
@@ -21,7 +25,7 @@ class Post {
     $this->id = $id;
     $this->userId = $userId;
     $this->text = $text;
-    $this->dateTime = new \DateTime();
+    $this->dateTime = $dateTime;
   }
 
   public function getId(): ?string { return $this->id; }

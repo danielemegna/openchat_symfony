@@ -21,9 +21,9 @@ class SqlLitePostRepositoryTest extends TestCase {
   }
 
   function testStoreAndGetByUserId() {
-    $firstShadyPostId = $this->repository->store(Post::newWithoutIdAndDate("shady90Id", "First shady90 post."));
-    $secondShadyPostId = $this->repository->store(Post::newWithoutIdAndDate("shady90Id", "Another shady90 post."));
-    $firstMariaPostId = $this->repository->store(Post::newWithoutIdAndDate("maria89Id", "Maria first post."));
+    $firstShadyPostId = $this->repository->store(Post::newWithoutId("shady90Id", "First shady90 post.", new \DateTime()));
+    $secondShadyPostId = $this->repository->store(Post::newWithoutId("shady90Id", "Another shady90 post.", new \DateTime()));
+    $firstMariaPostId = $this->repository->store(Post::newWithoutId("maria89Id", "Maria first post.", new \DateTime()));
     $this->assertIsAValidUUID($firstShadyPostId);
     $this->assertIsAValidUUID($firstMariaPostId);
 
