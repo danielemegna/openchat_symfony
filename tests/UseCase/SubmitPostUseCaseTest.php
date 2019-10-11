@@ -23,28 +23,33 @@ class SubmitPostUseCaseTest extends TestCase {
   }
 
   public function testReturnsUnexistingUserErrorWithUnexistingUserId() {
-    $publishedPost = $this->usecase->run("unexistingUserId", "Post text.");
+    $publishedPost = $this->runUseCaseWith("unexistingUserId", "Post text.");
     $this->assertInstanceOf(UnexistingUserError::class, $publishedPost);
   }
 
   public function testReturnsInappropriateLanguageErrorWithInappropriatePostTexts() {
-    $publishedPost = $this->usecase->run($this->storedUserId, "I do not like elephants.");
+    $publishedPost = $this->runUseCaseWith($this->storedUserId, "I do not like elephants.");
     $this->assertInstanceOf(InappropriateLanguageError::class, $publishedPost);
-    $publishedPost = $this->usecase->run($this->storedUserId, "I hate orange juice.");
+    $publishedPost = $this->runUseCaseWith($this->storedUserId, "I hate orange juice.");
     $this->assertInstanceOf(InappropriateLanguageError::class, $publishedPost);
-    $publishedPost = $this->usecase->run($this->storedUserId, "I would like an ice cream.");
+    $publishedPost = $this->runUseCaseWith($this->storedUserId, "I would like an ice cream.");
     $this->assertInstanceOf(InappropriateLanguageError::class, $publishedPost);
-    $publishedPost = $this->usecase->run($this->storedUserId, "ORANGE IS A BAD FRUIT!");
+    $publishedPost = $this->runUseCaseWith($this->storedUserId, "ORANGE IS A BAD FRUIT!");
     $this->assertInstanceOf(InappropriateLanguageError::class, $publishedPost);
   }
 
   public function testReturnsPublishedPost() {
-    $publishedPost = $this->usecase->run($this->storedUserId, "Post text.");
+    $publishedPost = $this->runUseCaseWith($this->storedUserId, "Post text.");
 
     $this->assertIsAValidUUID($publishedPost->getId());
     $this->assertEquals($this->storedUserId, $publishedPost->getUserId());
     $this->assertEquals("Post text.", $publishedPost->getText());
     $this->assertInstanceOf(\DateTime::class, $publishedPost->getDateTime());
+  }
+
+  private function runUseCaseWith($userId, $postText) {
+    $postToSubmit = Post::newWithoutIdAndDate($userId, $postText);
+    return $this->usecase->run($postToSubmit);
   }
 
   private function assertIsAValidUUID(string $string) {

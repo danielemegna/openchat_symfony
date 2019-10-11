@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Post;
 use App\UseCase\SubmitPostUseCase;
 use App\UseCase\UnexistingUserError;
 use App\UseCase\InappropriateLanguageError;
@@ -18,15 +19,14 @@ class UsersTimelineController extends Controller {
    */
   public function submitPost(string $userId, Request $request, SubmitPostUseCase $submitPostUseCase) {
     $postText = json_decode($request->getContent())->text;
+    $postToSubmit = Post::newWithoutIdAndDate($userId, $postText);
 
-    $publishedPost = $submitPostUseCase->run($userId, $postText);
+    $publishedPost = $submitPostUseCase->run($postToSubmit);
 
     if($publishedPost instanceof UnexistingUserError)
       return new Response("User not found.", 400, ["Content-Type" => "text/plain"]);
-
     if($publishedPost instanceof InappropriateLanguageError)
       return new Response("Post contains inappropriate language.", 400, ["Content-Type" => "text/plain"]);
-
     $responseBody = [
       "postId" => $publishedPost->getId(),
       "userId" => $publishedPost->getUserId(),
@@ -35,7 +35,6 @@ class UsersTimelineController extends Controller {
     ];
     return $this->json($responseBody, 201);
   }
-
 
   /**
    * @Route("/users/{userId}/timeline", methods={"GET"})
