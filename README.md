@@ -40,6 +40,12 @@ or tmuxp
 $ tmuxp load .tmuxp.yml
 ```
 
+To run chrome disabling CORS security check and test the application with cleancoders_openchat_webclient:
+
+```
+$ google-chrome-stable --disable-web-security --incognito --user-data-dir /tmp/ http://localhost:5000
+```
+
 #### Refactoring notes
 
 - check single and plural inappropriate words
