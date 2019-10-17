@@ -14,10 +14,15 @@ class GetTimelineUseCase {
 
   function run($userId) {
     $userPosts = $this->postRepository->getByUserId($userId);
-    usort($userPosts, function($a, $b) {
+    return $this->sortPostByDateTime($userPosts);
+  }
+
+  private function sortPostByDateTime(array $posts) {
+    $result = $posts;
+    usort($result, function($a, $b) {
       return $a->getDateTime() <=> $b->getDateTime();
     });
-    return array_reverse($userPosts);
+    return array_reverse($result);
   }
 
 }
