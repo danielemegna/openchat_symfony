@@ -20,10 +20,10 @@ class GetTimelineUseCase {
       return new UnexistingUserError($userId);
 
     $userPosts = $this->postRepository->getByUserId($userId);
-    return $this->sortPostByDateTime($userPosts);
+    return $this->sortPostByDateTimeDesc($userPosts);
   }
 
-  private function sortPostByDateTime(array $posts) {
+  private function sortPostByDateTimeDesc(array $posts) {
     $result = $posts;
     usort($result, function($a, $b) {
       return $a->getDateTime() <=> $b->getDateTime();
