@@ -18,7 +18,7 @@ class SubmitPostUseCase {
 
   function run(Post $post) {
     if(!$this->userExists($post))
-      return new UnexistingUserError($post);
+      return new UnexistingUserError($post->getUserId());
     if($this->hasInappropriateLanguage($post))
       return new InappropriateLanguageError($post);
 
@@ -52,9 +52,10 @@ class SubmitPostUseCase {
   }
 }
 
-final class UnexistingUserError extends Post {
-  public function __construct($post) {
-    parent::newWithoutIdAndDate($post->getUserId(), $post->getText());
+final class UnexistingUserError {
+  private $userId;
+  public function __construct($userId) {
+    $this->userId = $userId;
   }
 }
 

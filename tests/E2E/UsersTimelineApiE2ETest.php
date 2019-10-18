@@ -68,8 +68,9 @@ class UsersTimelineApiE2ETest extends BaseE2E {
   function testUnexisingUserGetTimelineAttempt() {
     $this->client->request('GET', "/users/$this->UNEXISTING_USER_ID/timeline");
     $response = $this->client->getResponse();
-    $this->assertStatusCode(200, $response);
-    $this->assertEquals([], json_decode($response->getContent()));
+    $this->assertStatusCode(400, $response);
+    $this->assertEquals("text/plain; charset=UTF-8", $response->headers->get("content-type"));
+    $this->assertEquals("User not found.", $response->getContent());
   }
 
   private function assertIsAValidISO8601DateTime(string $value) {

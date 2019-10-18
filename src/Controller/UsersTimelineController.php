@@ -41,6 +41,8 @@ class UsersTimelineController extends Controller {
    */
   public function getUserTimeline(string $userId, GetTimelineUseCase $getTimelineUseCase) {
     $userPosts = $getTimelineUseCase->run($userId);
+    if($userPosts instanceof UnexistingUserError)
+      return new Response("User not found.", 400, ["Content-Type" => "text/plain"]);
     $responseBody = array_map(function($p) {
       return [
         "postId" => $p->getId(),
@@ -49,7 +51,6 @@ class UsersTimelineController extends Controller {
         "dateTime" => $p->getDateTime()->format(\DateTime::ISO8601)
       ];
     }, $userPosts);
-
     return $this->json($responseBody, 200);
   }
 
