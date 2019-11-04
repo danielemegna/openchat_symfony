@@ -20,7 +20,7 @@ class InMemoryPostRepository implements PostRepository {
       $this->gen_uuid(),
       $post->getUserId(),
       $post->getText(),
-      $post->getDateTime()
+      $post->getPublishDateTime()
     );
     array_push($this->posts, $toBeStored);
     return $toBeStored->getId();

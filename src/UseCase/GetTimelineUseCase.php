@@ -26,7 +26,7 @@ class GetTimelineUseCase {
   private function sortPostByDateTimeDesc(array $posts) {
     $result = $posts;
     usort($result, function($a, $b) {
-      return $a->getDateTime() <=> $b->getDateTime();
+      return $a->getPublishDateTime() <=> $b->getPublishDateTime();
     });
     return array_reverse($result);
   }

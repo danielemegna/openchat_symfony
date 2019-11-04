@@ -32,7 +32,7 @@ class SqlLitePostRepository implements PostRepository {
     $insert->bindValue(1, $newId);
     $insert->bindValue(2, $post->getUserId());
     $insert->bindValue(3, $post->getText());
-    $insert->bindValue(4, $post->getDateTime()->format(\DateTime::ISO8601));
+    $insert->bindValue(4, $post->getPublishDateTime()->format(\DateTime::ISO8601));
     $insert->execute();
     return $newId;
   }

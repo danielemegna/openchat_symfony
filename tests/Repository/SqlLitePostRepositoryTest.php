@@ -32,18 +32,18 @@ class SqlLitePostRepositoryTest extends TestCase {
     $this->assertEquals($firstShadyPostId, $actual[0]->getId());
     $this->assertEquals("shady90Id", $actual[0]->getUserId());
     $this->assertEquals("First shady90 post.", $actual[0]->getText());
-    $this->assertNotNull($actual[0]->getDateTime());
+    $this->assertNotNull($actual[0]->getPublishDateTime());
     $this->assertEquals($secondShadyPostId, $actual[1]->getId());
     $this->assertEquals("shady90Id", $actual[1]->getUserId());
     $this->assertEquals("Another shady90 post.", $actual[1]->getText());
-    $this->assertNotNull($actual[1]->getDateTime());
+    $this->assertNotNull($actual[1]->getPublishDateTime());
 
     $actual = $this->repository->getByUserId("maria89Id");
     $this->assertEquals(1, sizeof($actual));
     $this->assertEquals($firstMariaPostId, $actual[0]->getId());
     $this->assertEquals("maria89Id", $actual[0]->getUserId());
     $this->assertEquals("Maria first post.", $actual[0]->getText());
-    $this->assertNotNull($actual[0]->getDateTime());
+    $this->assertNotNull($actual[0]->getPublishDateTime());
 
     $actual = $this->repository->getByUserId("notPresent");
     $this->assertEquals([], $actual);

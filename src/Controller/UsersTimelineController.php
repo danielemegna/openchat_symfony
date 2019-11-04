@@ -31,7 +31,7 @@ class UsersTimelineController extends Controller {
       "postId" => $publishedPost->getId(),
       "userId" => $publishedPost->getUserId(),
       "text" => $publishedPost->getText(),
-      "dateTime" => $publishedPost->getDateTime()->format(\DateTime::ISO8601)
+      "dateTime" => $publishedPost->getPublishDateTime()->format(\DateTime::ISO8601)
     ];
     return $this->json($responseBody, 201);
   }
@@ -48,7 +48,7 @@ class UsersTimelineController extends Controller {
         "postId" => $p->getId(),
         "userId" => $p->getUserId(),
         "text" => $p->getText(),
-        "dateTime" => $p->getDateTime()->format(\DateTime::ISO8601)
+        "dateTime" => $p->getPublishDateTime()->format(\DateTime::ISO8601)
       ];
     }, $userPosts);
     return $this->json($responseBody, 200);

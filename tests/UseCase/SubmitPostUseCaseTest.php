@@ -48,7 +48,7 @@ class SubmitPostUseCaseTest extends TestCase {
     $this->assertEquals('7c74136e-edc8-4c6e-ad0b-f94b0770e18c', $publishedPost->getId());
     $this->assertEquals($this->storedUserId, $publishedPost->getUserId());
     $this->assertEquals("Post text.", $publishedPost->getText());
-    $this->assertInstanceOf(\DateTime::class, $publishedPost->getDateTime());
+    $this->assertInstanceOf(\DateTime::class, $publishedPost->getPublishDateTime());
   }
 
   public function testStoresPostUsingPostRepository() {
@@ -58,7 +58,7 @@ class SubmitPostUseCaseTest extends TestCase {
         $this->assertNull($post->getId());
         $this->assertEquals($this->storedUserId, $post->getUserId());
         $this->assertEquals("Post text.", $post->getText());
-        $this->assertNotNull($post->getDateTime());
+        $this->assertNotNull($post->getPublishDateTime());
         return true;
       }));
 

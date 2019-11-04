@@ -32,7 +32,7 @@ class SubmitPostUseCase {
       $storedId,
       $postToBeStored->getUserId(),
       $postToBeStored->getText(),
-      $postToBeStored->getDateTime()
+      $postToBeStored->getPublishDateTime()
     );
   }
 
