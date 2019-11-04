@@ -16,8 +16,9 @@ class SqlLiteUserRepositoryTest extends TestCase {
   }
 
   function testEmptyRepository() {
-    $actual = $this->repository->getAll();
-    $this->assertEquals([], $actual);
+    $this->assertEquals([], $this->repository->getAll());
+    $this->assertNull($this->repository->getByUsername("shady90"));
+    $this->assertNull($this->repository->getById("any"));
   }
 
   function testStoreAndGet() {
@@ -35,16 +36,12 @@ class SqlLiteUserRepositoryTest extends TestCase {
     ];
     $this->assertEquals($expected, $users);
 
-    $foundUser = $this->repository->getByUsername("notPresent");
-    $this->assertNull($foundUser);
-
+    $this->assertNull($this->repository->getByUsername("notPresent"));
     $foundUser = $this->repository->getByUsername("maria89");
     $expected = User::build($mariaId, "maria89", "maria89 about.", "secureAgain");
     $this->assertEquals($expected, $foundUser);
 
-    $foundUser = $this->repository->getById("notPresent");
-    $this->assertNull($foundUser);
-
+    $this->assertNull($this->repository->getById("notPresent"));
     $foundUser = $this->repository->getById($shadyId);
     $expected = User::build($shadyId, "shady90", "shady90 about.", "securePassword");
     $this->assertEquals($expected, $foundUser);
