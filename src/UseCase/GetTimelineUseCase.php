@@ -16,7 +16,7 @@ class GetTimelineUseCase {
   }
 
   function run($userId) {
-    if(!$this->userExists($userId))
+    if(!$this->userRepository->existsById($userId))
       return new UnexistingUserError($userId);
 
     $userPosts = $this->postRepository->getByUserId($userId);
@@ -29,10 +29,6 @@ class GetTimelineUseCase {
       return $a->getPublishDateTime() <=> $b->getPublishDateTime();
     });
     return array_reverse($result);
-  }
-
-  private function userExists($userId) {
-    return !is_null($this->userRepository->getById($userId));
   }
 
 }

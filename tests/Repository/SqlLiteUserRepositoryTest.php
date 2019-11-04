@@ -19,6 +19,7 @@ class SqlLiteUserRepositoryTest extends TestCase {
     $this->assertEquals([], $this->repository->getAll());
     $this->assertNull($this->repository->getByUsername("shady90"));
     $this->assertNull($this->repository->getById("any"));
+    $this->assertFalse($this->repository->existsById("any"));
   }
 
   function testStoreAndGet() {

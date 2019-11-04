@@ -27,6 +27,10 @@ class InMemoryUserRepository implements UserRepository {
     return array_pop($results);
   }
 
+  function existsById($id) {
+    return !is_null($this->getById($id));
+  }
+
   function store($user) {
     $toBeStored = User::build(
       $this->gen_uuid(),

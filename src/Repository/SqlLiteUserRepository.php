@@ -38,6 +38,10 @@ class SqlLiteUserRepository implements UserRepository {
     return array_pop($users);
   }
 
+  function existsById($id) {
+    return !is_null($this->getById($id));
+  }
+
   function store($user) {
     $newId = $this->gen_uuid();
     $insert = $this->sqlite->prepare('INSERT INTO USERS(ID, USERNAME, ABOUT, PASSWORD) VALUES(?,?,?,?)');

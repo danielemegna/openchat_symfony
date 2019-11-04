@@ -52,6 +52,5 @@ $ google-chrome-stable --disable-web-security --incognito --user-data-dir /tmp/ 
 - remove serialize / deserialize duplications
 - remove assertIsAValidUUID duplication
 - usecase variables .... should be useCase?
-- userExists should be a UserRepository method?
 - check single and plural inappropriate words
 - foreign key on user table for posts and followings?

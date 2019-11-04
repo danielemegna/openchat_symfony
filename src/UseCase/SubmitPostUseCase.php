@@ -17,7 +17,7 @@ class SubmitPostUseCase {
   }
 
   function run(Post $post) {
-    if(!$this->userExists($post))
+    if(!$this->userRepository->existsById($post->getUserId()))
       return new UnexistingUserError($post->getUserId());
     if($this->hasInappropriateLanguage($post))
       return new InappropriateLanguageError($post);
@@ -34,10 +34,6 @@ class SubmitPostUseCase {
       $postToBeStored->getText(),
       $postToBeStored->getPublishDateTime()
     );
-  }
-
-  private function userExists($post) {
-    return !is_null($this->userRepository->getById($post->getUserId()));
   }
 
   private function hasInappropriateLanguage($post) {
