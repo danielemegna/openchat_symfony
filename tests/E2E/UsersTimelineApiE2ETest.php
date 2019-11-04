@@ -12,8 +12,7 @@ class UsersTimelineApiE2ETest extends BaseE2E {
     $response = $this->postAsJson("/users/$this->UNEXISTING_USER_ID/timeline", [
       "text" => "Any text here."
     ]);
-    $this->assertStatusCode(400, $response);
-    $this->assertEquals("text/plain; charset=UTF-8", $response->headers->get("content-type"));
+    $this->assertResponse($response, 400, "text/plain; charset=UTF-8");
     $this->assertEquals("User not found.", $response->getContent());
   }
 
@@ -24,8 +23,7 @@ class UsersTimelineApiE2ETest extends BaseE2E {
       "text" => "I do not like elephants."
     ]);
 
-    $this->assertStatusCode(400, $response);
-    $this->assertEquals("text/plain; charset=UTF-8", $response->headers->get("content-type"));
+    $this->assertResponse($response, 400, "text/plain; charset=UTF-8");
     $this->assertEquals("Post contains inappropriate language.", $response->getContent());
   }
 
@@ -37,8 +35,7 @@ class UsersTimelineApiE2ETest extends BaseE2E {
     ]);
     $firstPublishedPost = json_decode($response->getContent(), true);
 
-    $this->assertStatusCode(201, $response);
-    $this->assertEquals("application/json", $response->headers->get("content-type"));
+    $this->assertResponse($response, 201, "application/json");
     $this->assertIsAValidUUID($firstPublishedPost["postId"]);
     $this->assertEquals($shadyId, $firstPublishedPost["userId"]);
     $this->assertEquals("This is the first shady90 post.", $firstPublishedPost["text"]);
@@ -52,8 +49,7 @@ class UsersTimelineApiE2ETest extends BaseE2E {
     $this->client->request('GET', "/users/$shadyId/timeline");
 
     $response = $this->client->getResponse();
-    $this->assertStatusCode(200, $response);
-    $this->assertEquals("application/json", $response->headers->get("content-type"));
+    $this->assertResponse($response, 200, "application/json");
     $timelinePosts = json_decode($response->getContent(), true);
     $expectedPosts = [[
         "postId" => $secondPublishedPost["postId"], "userId" => $shadyId,
@@ -68,8 +64,7 @@ class UsersTimelineApiE2ETest extends BaseE2E {
   function testUnexisingUserGetTimelineAttempt() {
     $this->client->request('GET', "/users/$this->UNEXISTING_USER_ID/timeline");
     $response = $this->client->getResponse();
-    $this->assertStatusCode(400, $response);
-    $this->assertEquals("text/plain; charset=UTF-8", $response->headers->get("content-type"));
+    $this->assertResponse($response, 400, "text/plain; charset=UTF-8");
     $this->assertEquals("User not found.", $response->getContent());
   }
 

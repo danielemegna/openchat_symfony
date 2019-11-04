@@ -20,8 +20,7 @@ abstract class BaseE2E extends WebTestCase {
       'about' => $about
     ]);
 
-    $this->assertEquals(200, $response->getStatusCode());
-    $this->assertEquals("application/json", $response->headers->get("content-type"));
+    $this->assertResponse($response, 200, "application/json");
     $responseBody = json_decode($response->getContent(), true);
     $this->assertTrue(array_key_exists("id", $responseBody));
     $this->assertEquals($username, $responseBody["username"]);
@@ -30,6 +29,11 @@ abstract class BaseE2E extends WebTestCase {
     $registeredUserId = $responseBody["id"];
     $this->assertIsAValidUUID($registeredUserId);
     return $registeredUserId;
+  }
+
+  protected function assertResponse($response, $statusCode, $contentType) {
+    $this->assertEquals($statusCode, $response->getStatusCode(), $this->getErrorStackTrace());
+    $this->assertEquals($contentType, $response->headers->get("content-type"));
   }
 
   protected function assertIsAValidUUID(string $string) {
@@ -46,10 +50,6 @@ abstract class BaseE2E extends WebTestCase {
         json_encode($data)
     );
     return $this->client->getResponse();
-  }
-
-  protected function assertStatusCode($expected, $response) {
-    $this->assertEquals($expected, $response->getStatusCode(), $this->getErrorStackTrace());
   }
 
   private function getErrorStackTrace() {

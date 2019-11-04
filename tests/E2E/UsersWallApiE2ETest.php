@@ -12,8 +12,7 @@ class UsersWallApiE2ETest extends BaseE2E {
     $this->client->request('GET', "/users/$this->UNEXISTING_USER_ID/wall");
 
     $response = $this->client->getResponse();
-    $this->assertStatusCode(400, $response);
-    $this->assertEquals("text/plain; charset=UTF-8", $response->headers->get("content-type"));
+    $this->assertResponse($response, 400, "text/plain; charset=UTF-8");
     $this->assertEquals("User not found.", $response->getContent());
   }
 

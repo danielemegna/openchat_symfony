@@ -19,9 +19,9 @@ class LoginController extends Controller {
     $requestBody = json_decode($request->getContent());
 
     $loggedUser = $usecase->run($requestBody->username, $requestBody->password);
+
     if($loggedUser instanceof InvalidCredentialsError)
       return new Response('Invalid credentials.', 404, ['Content-Type' => 'text/plain']);
-
     return $this->serializeUser($loggedUser);
   }
 

@@ -48,12 +48,11 @@ $ google-chrome-stable --disable-web-security --incognito --user-data-dir /tmp/ 
 
 #### Refactoring notes
 
-- check single and plural inappropriate words
 - remove function gen_uuid duplication
 - remove serialize / deserialize duplications
 - remove assertIsAValidUUID duplication
-- merge status code and content type E2E assertions
 - rename Post.dateTime in Post.publishDatetime
 - foreign key on user table for posts and followings?
 - usecase variables .... should be useCase?
 - userExists should be a UserRepository method?
+- check single and plural inappropriate words
