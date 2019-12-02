@@ -3,7 +3,8 @@ start_directory: ./
 windows:
   - window_name: docker
     panes:
-      - docker run --rm -itp 4321:4321 -v $PWD:/app -w /app php:7.1-alpine sh
+      - shell_command: docker run --rm -itp 4321:4321 -v $PWD:/app -w /app php:7.1-alpine sh
   - window_name: editor
+    focus: true
     panes:
-      - vim .
+      - shell_command: vim .
