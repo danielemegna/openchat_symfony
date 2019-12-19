@@ -24,10 +24,7 @@ class UsersWallApiE2ETest extends BaseE2E {
     $this->assertResponse($response, 200, "application/json");
     $this->assertEquals([], json_decode($response->getContent(), true));
 
-    $response = $this->postAsJson("/users/$shadyId/timeline", [
-      "text" => "This is the first shady90 post."
-    ]);
-    $firstShadyPost = json_decode($response->getContent(), true);
+    $firstShadyPost = $this->submitPost($shadyId, "This is the first shady90 post.");
 
     $this->client->request('GET', "/users/$shadyId/wall");
     $response = $this->client->getResponse();

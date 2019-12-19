@@ -30,21 +30,8 @@ class UsersTimelineApiE2ETest extends BaseE2E {
   function testSubmitPostAndGetTimeline() {
     $shadyId = $this->registerUser('shady90', 'About shady90 here.', 'very$ecure');
 
-    $response = $this->postAsJson("/users/$shadyId/timeline", [
-      "text" => "This is the first shady90 post."
-    ]);
-    $firstPublishedPost = json_decode($response->getContent(), true);
-
-    $this->assertResponse($response, 201, "application/json");
-    $this->assertIsAValidUUID($firstPublishedPost["postId"]);
-    $this->assertEquals($shadyId, $firstPublishedPost["userId"]);
-    $this->assertEquals("This is the first shady90 post.", $firstPublishedPost["text"]);
-    $this->assertIsAValidISO8601DateTime($firstPublishedPost["dateTime"]);
-
-    $response = $this->postAsJson("/users/$shadyId/timeline", [
-      "text" => "Second shady90 post here."
-    ]);
-    $secondPublishedPost = json_decode($response->getContent(), true);
+    $firstPublishedPost = $this->submitPost($shadyId, "This is the first shady90 post.");
+    $secondPublishedPost = $this->submitPost($shadyId, "Second shady90 post here.");
 
     $this->client->request('GET', "/users/$shadyId/timeline");
 
@@ -68,8 +55,5 @@ class UsersTimelineApiE2ETest extends BaseE2E {
     $this->assertEquals("User not found.", $response->getContent());
   }
 
-  private function assertIsAValidISO8601DateTime(string $value) {
-    $this->assertTrue(\DateTime::createFromFormat(\DateTime::ISO8601, $value) !== false);
-  }
 
 }

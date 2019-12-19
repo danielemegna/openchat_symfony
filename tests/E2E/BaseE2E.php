@@ -29,6 +29,19 @@ abstract class BaseE2E extends WebTestCase {
     return $responseBody["id"];
   }
 
+  protected function submitPost($userId, $text) {
+    $response = $this->postAsJson("/users/$userId/timeline", [ "text" => $text ]);
+
+    $this->assertResponse($response, 201, "application/json");
+    $responseBody = json_decode($response->getContent(), true);
+    $this->assertIsAValidUUID($responseBody["postId"]);
+    $this->assertEquals($userId, $responseBody["userId"]);
+    $this->assertEquals($text, $responseBody["text"]);
+    $this->assertIsAValidISO8601DateTime($responseBody["dateTime"]);
+
+    return $responseBody;
+  }
+
   protected function assertResponse($response, $statusCode, $contentType) {
     $this->assertEquals($statusCode, $response->getStatusCode(), $this->getErrorStackTrace());
     $this->assertEquals($contentType, $response->headers->get("content-type"));
@@ -36,6 +49,10 @@ abstract class BaseE2E extends WebTestCase {
 
   protected function assertIsAValidUUID(string $string) {
     $this->assertRegExp('/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i', $string);
+  }
+
+  protected function assertIsAValidISO8601DateTime(string $value) {
+    $this->assertTrue(\DateTime::createFromFormat(\DateTime::ISO8601, $value) !== false);
   }
 
   protected function assertArrayContainsExactlyInAnyOrder($expected, $actual) {
