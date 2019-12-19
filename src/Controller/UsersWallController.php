@@ -27,7 +27,16 @@ class UsersWallController extends AbstractController {
       return new Response("User not found.", 400, ["Content-Type" => "text/plain"]);
 
     $posts = $this->postRepository->getByUserId($userId);
+    $posts = $this->sortPostByDateTimeDesc($posts);
     return $this->json($this->serializePosts($posts), 200);
+  }
+
+  private function sortPostByDateTimeDesc(array $posts) {
+    $result = $posts;
+    usort($result, function($a, $b) {
+      return $a->getPublishDateTime() <=> $b->getPublishDateTime();
+    });
+    return array_reverse($result);
   }
 
   private function serializePosts(array $posts) {
