@@ -55,3 +55,8 @@ $ google-chrome-stable --disable-web-security --incognito --user-data-dir /tmp/ 
 - check single and plural inappropriate words
 - foreign key on user table for posts and followings?
 - extract submit new post E2EBase method
+
+#### Where to continue
+
+- UsersWallApiE2ETest.testWallForExistingUser: test followee posts in timeline
+- UsersWallController: extract a usecase !

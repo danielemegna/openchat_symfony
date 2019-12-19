@@ -18,12 +18,16 @@ class UsersWallApiE2ETest extends BaseE2E {
 
   function testWallForExistingUser() {
     $shadyId = $this->registerUser('shady90', 'About shady90 here.', 'very$ecure');
+    $mariaId = $this->registerUser('maria89', 'About maria89 here.', 'very$ecure');
+    $sandroId = $this->registerUser('sandro', 'About sandro here.', 'very$ecure');
 
     $wallPosts = $this->getUserWall($shadyId);
     $this->assertEquals([], $wallPosts);
 
     $firstShadyPost = $this->submitPost($shadyId, "This is the first shady90 post.");
+    $firstMariaPost = $this->submitPost($mariaId, "This is the first maria89 post.");
     $secondShadyPost = $this->submitPost($shadyId, "This is the second shady90 post.");
+    $firstSandroPost = $this->submitPost($sandroId, "This is the first sandro post.");
 
     $wallPosts = $this->getUserWall($shadyId);
     $expectedPosts = [[
@@ -34,6 +38,12 @@ class UsersWallApiE2ETest extends BaseE2E {
         "text" => "This is the first shady90 post.", "dateTime" => $firstShadyPost["dateTime"]
     ]];
     $this->assertEquals($expectedPosts, $wallPosts);
+
+    $this->createFollowing($shadyId, $sandroId);
+    $this->createFollowing($shadyId, $mariaId);
+    $this->createFollowing($mariaId, $shadyId);
+
+    // TODO test followee posts
   }
 
   private function getUserWall($userId) {
