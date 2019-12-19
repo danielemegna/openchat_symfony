@@ -5,12 +5,12 @@ namespace App\Controller;
 use App\Entity\User;
 use App\UseCase\InvalidCredentialsError;
 use App\UseCase\LoginUserUseCase;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class LoginController extends Controller {
+class LoginController extends AbstractController {
 
   /**
    * @Route("/login", methods={"POST"})
