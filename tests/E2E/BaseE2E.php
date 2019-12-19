@@ -22,13 +22,11 @@ abstract class BaseE2E extends WebTestCase {
 
     $this->assertResponse($response, 200, "application/json");
     $responseBody = json_decode($response->getContent(), true);
-    $this->assertTrue(array_key_exists("id", $responseBody));
+    $this->assertIsAValidUUID($responseBody["id"]);
     $this->assertEquals($username, $responseBody["username"]);
     $this->assertEquals($about, $responseBody["about"]);
 
-    $registeredUserId = $responseBody["id"];
-    $this->assertIsAValidUUID($registeredUserId);
-    return $registeredUserId;
+    return $responseBody["id"];
   }
 
   protected function assertResponse($response, $statusCode, $contentType) {
