@@ -16,7 +16,7 @@ This Kata is used by Robert C. Martin and Sandro Mancuso in "London vs. Chicago"
 
 Prepare dev cli environment
 ```
-$ docker run --rm -itp 4321:4321 -v $PWD:/app -w /app php:7.1-alpine sh
+$ docker run --rm -itp 4321:4321 -v $PWD:/app -w /app php:7.4-alpine sh
 $ php -d memory_limit=-1 composer.phar install
 ```
 
