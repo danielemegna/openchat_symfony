@@ -42,6 +42,15 @@ abstract class BaseE2E extends WebTestCase {
     return $responseBody;
   }
 
+  protected function createFollowing($followerId, $followeeId) {
+    $response = $this->postAsJson(FollowingsApiE2ETest::ENDPOINT, [
+      "followerId" => $followerId,
+      "followeeId" => $followeeId
+    ]);
+    $this->assertResponse($response, 201, "text/plain; charset=UTF-8");
+    $this->assertEquals("Following created.", $response->getContent());
+  }
+
   protected function assertResponse($response, $statusCode, $contentType) {
     $this->assertEquals($statusCode, $response->getStatusCode(), $this->getErrorStackTrace());
     $this->assertEquals($contentType, $response->headers->get("content-type"));
