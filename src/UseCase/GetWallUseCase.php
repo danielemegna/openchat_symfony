@@ -4,23 +4,34 @@ namespace App\UseCase;
 
 use App\Repository\PostRepository;
 use App\Repository\UserRepository;
+use App\Repository\FollowingRepository;
 
 class GetWallUseCase {
 
   private $userRepository;
   private $postRepository;
+  private $followingRepository;
 
-  function __construct(UserRepository $userRepository, PostRepository $postRepository) {
+  function __construct(UserRepository $userRepository, PostRepository $postRepository, FollowingRepository $followingRepository) {
     $this->userRepository = $userRepository;
     $this->postRepository = $postRepository;
+    $this->followingRepository = $followingRepository;
   }
 
   function run($userId) {
     if(!$this->userRepository->existsById($userId))
       return new UnexistingUserError($userId);
 
-    $userPosts = $this->postRepository->getByUserId($userId);
-    return $this->sortPostByDateTimeDesc($userPosts);
+    $wallPosts = $this->postRepository->getByUserId($userId);
+
+    $followings = $this->followingRepository->getByFollowerId($userId);
+    foreach($followings as $following) {
+      $followeeId = $following->getFolloweeId();
+      $followeePosts = $this->postRepository->getByUserId($followeeId);
+      $wallPosts = array_merge($wallPosts, $followeePosts);
+    }
+
+    return $this->sortPostByDateTimeDesc($wallPosts);
   }
 
   private function sortPostByDateTimeDesc(array $posts) {

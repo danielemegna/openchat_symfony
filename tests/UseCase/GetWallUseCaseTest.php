@@ -57,4 +57,20 @@ class GetWallUseCaseTest extends TestCase {
     $this->assertEquals($expected, $wallPosts);
   }
 
+  public function testReturnsAlsoFollowedUserPosts() {
+    $secondUserId = $this->userRepository->store(User::newWithoutId("maria89", "about", "pass"));
+    $thirdUserId = $this->userRepository->store(User::newWithoutId("sandro", "about", "pass"));
+    $this->postRepository->store(Post::newWithoutId($this->storedUserId, "Stored user post.", new \DateTime()));
+    $this->postRepository->store(Post::newWithoutId($secondUserId, "Second user post.", date_modify(new \DateTime(), "+10 minute")));
+    $this->postRepository->store(Post::newWithoutId($thirdUserId, "Third user post.", date_modify(new \DateTime(), "+20 minute")));
+    $this->postRepository->store(Post::newWithoutId($this->storedUserId, "Stored user post again.", date_modify(new \DateTime(), "+45 minute")));
+    $this->followingRepository->store(new Following($this->storedUserId, $secondUserId));
+
+    $wallPosts = $this->usecase->run($this->storedUserId);
+
+    $this->assertEquals($wallPosts[0]->getText(), "Stored user post again.");
+    $this->assertEquals($wallPosts[1]->getText(), "Second user post.");
+    $this->assertEquals($wallPosts[2]->getText(), "Stored user post.");
+  }
+
 }

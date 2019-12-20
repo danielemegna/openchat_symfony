@@ -28,13 +28,13 @@ class GetTimelineUseCaseTest extends TestCase {
   }
 
   public function testReturnsUnexistingUserErrorWithUnexistingUserId() {
-    $publishedPost = $this->usecase->run("unexistingUserId");
-    $this->assertInstanceOf(UnexistingUserError::class, $publishedPost);
+    $timelinePosts = $this->usecase->run("unexistingUserId");
+    $this->assertInstanceOf(UnexistingUserError::class, $timelinePosts);
   }
 
   public function testUserWithoutPosts() {
-    $publishedPost = $this->usecase->run($this->storedUserId);
-    $this->assertEquals([], $publishedPost);
+    $timelinePosts = $this->usecase->run($this->storedUserId);
+    $this->assertEquals([], $timelinePosts);
   }
 
   public function testReturnsUserPostsSortedByDateDesc() {
@@ -47,13 +47,13 @@ class GetTimelineUseCaseTest extends TestCase {
       $this->storedUserId, "Second user post.", $secondPostDateTime
     ));
 
-    $publishedPost = $this->usecase->run($this->storedUserId);
+    $timelinePosts = $this->usecase->run($this->storedUserId);
 
     $expected = [
       Post::build($secondPostId, $this->storedUserId, "Second user post.", $secondPostDateTime),
       Post::build($firstPostId, $this->storedUserId, "First user post.", $firstPostDateTime)
     ];
-    $this->assertEquals($expected, $publishedPost);
+    $this->assertEquals($expected, $timelinePosts);
   }
 
 }
