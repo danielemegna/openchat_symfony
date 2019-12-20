@@ -6,37 +6,21 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Repository\UserRepository;
-use App\Repository\PostRepository;
+use App\UseCase\UnexistingUserError;
+use App\UseCase\GetWallUseCase;
 
 class UsersWallController extends AbstractController {
-
-  private $userRepository;
-  private $postRepository;
-
-  function __construct(UserRepository $userRepository, PostRepository $postRepository) {
-    $this->userRepository = $userRepository;
-    $this->postRepository = $postRepository;
-  }
 
   /**
    * @Route("/users/{userId}/wall", methods={"GET"})
    */
-  public function submitPost(string $userId) {
-    if(!$this->userRepository->existsById($userId))
+  public function getUserWall(string $userId, GetWallUseCase $getWallUseCase) {
+    $wallPosts = $getWallUseCase->run($userId);
+
+    if($wallPosts instanceof UnexistingUserError)
       return new Response("User not found.", 400, ["Content-Type" => "text/plain"]);
 
-    $posts = $this->postRepository->getByUserId($userId);
-    $posts = $this->sortPostByDateTimeDesc($posts);
-    return $this->json($this->serializePosts($posts), 200);
-  }
-
-  private function sortPostByDateTimeDesc(array $posts) {
-    $result = $posts;
-    usort($result, function($a, $b) {
-      return $a->getPublishDateTime() <=> $b->getPublishDateTime();
-    });
-    return array_reverse($result);
+    return $this->json($this->serializePosts($wallPosts), 200);
   }
 
   private function serializePosts(array $posts) {

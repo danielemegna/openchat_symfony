@@ -59,4 +59,3 @@ $ google-chrome-stable --disable-web-security --incognito --user-data-dir /tmp/ 
 #### Where to continue
 
 - UsersWallApiE2ETest.testWallForExistingUser: test followee posts in timeline
-- UsersWallController: extract a usecase !
