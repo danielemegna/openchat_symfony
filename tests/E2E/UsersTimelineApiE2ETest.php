@@ -29,7 +29,6 @@ class UsersTimelineApiE2ETest extends BaseE2E {
 
   function testSubmitPostAndGetTimeline() {
     $shadyId = $this->registerUser('shady90', 'About shady90 here.', 'very$ecure');
-
     $firstPublishedPost = $this->submitPost($shadyId, "This is the first shady90 post.");
     $secondPublishedPost = $this->submitPost($shadyId, "Second shady90 post here.");
 
@@ -39,11 +38,15 @@ class UsersTimelineApiE2ETest extends BaseE2E {
     $this->assertResponse($response, 200, "application/json");
     $timelinePosts = json_decode($response->getContent(), true);
     $expectedPosts = [[
-        "postId" => $secondPublishedPost["postId"], "userId" => $shadyId,
-        "text" => "Second shady90 post here.", "dateTime" => $secondPublishedPost["dateTime"]
+        "postId" => $secondPublishedPost["postId"],
+        "userId" => $shadyId,
+        "text" => "Second shady90 post here.",
+        "dateTime" => $secondPublishedPost["dateTime"]
     ],[
-        "postId" => $firstPublishedPost["postId"], "userId" => $shadyId,
-        "text" => "This is the first shady90 post.", "dateTime" => $firstPublishedPost["dateTime"]
+        "postId" => $firstPublishedPost["postId"],
+        "userId" => $shadyId,
+        "text" => "This is the first shady90 post.",
+        "dateTime" => $firstPublishedPost["dateTime"]
     ]];
     $this->assertEquals($expectedPosts, $timelinePosts);
   }

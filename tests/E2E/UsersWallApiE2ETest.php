@@ -31,11 +31,15 @@ class UsersWallApiE2ETest extends BaseE2E {
 
     $wallPosts = $this->getUserWall($shadyId);
     $expectedPosts = [[
-        "postId" => $secondShadyPost["postId"], "userId" => $shadyId,
-        "text" => "This is the second shady90 post.", "dateTime" => $secondShadyPost["dateTime"]
+        "postId" => $secondShadyPost["postId"],
+        "userId" => $shadyId,
+        "text" => "This is the second shady90 post.",
+        "dateTime" => $secondShadyPost["dateTime"]
     ],[
-        "postId" => $firstShadyPost["postId"], "userId" => $shadyId,
-        "text" => "This is the first shady90 post.", "dateTime" => $firstShadyPost["dateTime"]
+        "postId" => $firstShadyPost["postId"],
+        "userId" => $shadyId,
+        "text" => "This is the first shady90 post.",
+        "dateTime" => $firstShadyPost["dateTime"]
     ]];
     $this->assertEquals($expectedPosts, $wallPosts);
 
