@@ -29,7 +29,7 @@ class UsersWallController extends AbstractController {
         "postId" => $p->getId(),
         "userId" => $p->getUserId(),
         "text" => $p->getText(),
-        "dateTime" => $p->getPublishDateTime()->format(\DateTime::ISO8601)
+        "dateTime" => $p->getPublishDateTime()->format('Y-m-d\TH:i:s\Z')
       ];
     }, $posts);
   }

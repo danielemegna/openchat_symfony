@@ -56,12 +56,18 @@ abstract class BaseE2E extends WebTestCase {
     $this->assertEquals($contentType, $response->headers->get("content-type"));
   }
 
-  protected function assertIsAValidUUID(string $string) {
-    $this->assertRegExp('/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i', $string);
+  protected function assertIsAValidUUID(string $value) {
+    $this->assertRegExp(
+      '/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i',
+      $value, "Provided UUID do not match expected format."
+    );
   }
 
   protected function assertIsAValidISO8601DateTime(string $value) {
-    $this->assertTrue(\DateTime::createFromFormat(\DateTime::ISO8601, $value) !== false);
+    $this->assertRegExp(
+      '/^((19|20)[0-9][0-9])[-](0[1-9]|1[012])[-](0[1-9]|[12][0-9]|3[01])[T]([01][0-9]|[2][0-3])[:]([0-5][0-9])[:]([0-5][0-9])Z$/',
+      $value, "Provided datetime do not match expected format."
+    );
   }
 
   protected function assertArrayContainsExactlyInAnyOrder($expected, $actual) {

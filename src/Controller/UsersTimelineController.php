@@ -31,7 +31,7 @@ class UsersTimelineController extends AbstractController {
       "postId" => $publishedPost->getId(),
       "userId" => $publishedPost->getUserId(),
       "text" => $publishedPost->getText(),
-      "dateTime" => $publishedPost->getPublishDateTime()->format(\DateTime::ISO8601)
+      "dateTime" => $publishedPost->getPublishDateTime()->format('Y-m-d\TH:i:s\Z')
     ];
     return $this->json($responseBody, 201);
   }
@@ -48,7 +48,7 @@ class UsersTimelineController extends AbstractController {
         "postId" => $p->getId(),
         "userId" => $p->getUserId(),
         "text" => $p->getText(),
-        "dateTime" => $p->getPublishDateTime()->format(\DateTime::ISO8601)
+        "dateTime" => $p->getPublishDateTime()->format('Y-m-d\TH:i:s\Z')
       ];
     }, $userPosts);
     return $this->json($responseBody, 200);
