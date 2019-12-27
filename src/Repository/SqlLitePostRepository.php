@@ -6,6 +6,8 @@ use App\Entity\Post;
 
 class SqlLitePostRepository implements PostRepository {
 
+  private const DATETIME_STORE_FORMAT = 'Y-m-d\TH:i:s.u';
+
   private $sqlite;
 
   function __construct($filepath) {
@@ -32,7 +34,7 @@ class SqlLitePostRepository implements PostRepository {
     $insert->bindValue(1, $newId);
     $insert->bindValue(2, $post->getUserId());
     $insert->bindValue(3, $post->getText());
-    $insert->bindValue(4, $post->getPublishDateTime()->format(\DateTime::ISO8601));
+    $insert->bindValue(4, $post->getPublishDateTime()->format(self::DATETIME_STORE_FORMAT));
     $insert->execute();
     return $newId;
   }
@@ -40,7 +42,7 @@ class SqlLitePostRepository implements PostRepository {
   private function postsFrom(\SQLite3Result $result) {
     $posts = [];
     while ($row = $result->fetchArray()) {
-      $publishDatetime = \DateTime::createFromFormat(\DateTime::ISO8601, $row["PUBLISH_DATETIME"]);
+      $publishDatetime = \DateTime::createFromFormat(self::DATETIME_STORE_FORMAT, $row["PUBLISH_DATETIME"]);
       $posts[] = Post::build($row["ID"], $row["USER_ID"], $row["TEXT"], $publishDatetime);
     }
     return $posts;

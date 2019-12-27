@@ -49,6 +49,16 @@ class SqlLitePostRepositoryTest extends TestCase {
     $this->assertEquals([], $actual);
   }
 
+  function testStorePostPublishDateTimeMilliseconds() {
+    $postDateTime = new \DateTime("27-12-2019 11:54:39.456789");
+    
+    $this->repository->store(Post::newWithoutId("userId", "Post text.", $postDateTime));
+    $posts = $this->repository->getByUserId("userId");
+
+    $this->assertEquals($postDateTime, $posts[0]->getPublishDateTime());
+    $this->assertEquals('456789', $posts[0]->getPublishDateTime()->format('u'));
+  }
+
   private function assertIsAValidUUID(string $string) {
     $this->assertRegExp('/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i', $string);
   }
