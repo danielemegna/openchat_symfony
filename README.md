@@ -48,7 +48,6 @@ $ google-chrome-stable --disable-web-security --incognito --user-data-dir /tmp/ 
 
 #### Refactoring notes
 
-- remove serialize / deserialize duplications
-- check single and plural inappropriate words
 - foreign key on user table for posts and followings?
 - test SqlLite repositories one method at time
+- remove *public* from test methods?

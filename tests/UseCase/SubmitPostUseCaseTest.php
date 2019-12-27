@@ -32,23 +32,16 @@ class SubmitPostUseCaseTest extends TestCase {
   }
 
   public function testReturnsInappropriateLanguageErrorWithInappropriatePostTexts() {
-    $publishedPost = $this->runUseCaseWith($this->storedUserId, "I do not like elephants.");
+    $publishedPost = $this->runUseCaseWith($this->storedUserId, "I'd like to have an elephant");
     $this->assertInstanceOf(InappropriateLanguageError::class, $publishedPost);
     $publishedPost = $this->runUseCaseWith($this->storedUserId, "I hate orange juice.");
     $this->assertInstanceOf(InappropriateLanguageError::class, $publishedPost);
-    $publishedPost = $this->runUseCaseWith($this->storedUserId, "I would like an ice cream.");
+    $publishedPost = $this->runUseCaseWith($this->storedUserId, "I would like an iCe cREAm.");
     $this->assertInstanceOf(InappropriateLanguageError::class, $publishedPost);
     $publishedPost = $this->runUseCaseWith($this->storedUserId, "ORANGE IS A BAD FRUIT!");
     $this->assertInstanceOf(InappropriateLanguageError::class, $publishedPost);
-  }
-
-  public function testReturnsPublishedPost() {
-    $publishedPost = $this->runUseCaseWith($this->storedUserId, "Post text.");
-
-    $this->assertEquals('7c74136e-edc8-4c6e-ad0b-f94b0770e18c', $publishedPost->getId());
-    $this->assertEquals($this->storedUserId, $publishedPost->getUserId());
-    $this->assertEquals("Post text.", $publishedPost->getText());
-    $this->assertInstanceOf(\DateTime::class, $publishedPost->getPublishDateTime());
+    $publishedPost = $this->runUseCaseWith($this->storedUserId, "I do not like Elephants.");
+    $this->assertInstanceOf(InappropriateLanguageError::class, $publishedPost);
   }
 
   public function testStoresPostUsingPostRepository() {
@@ -63,6 +56,15 @@ class SubmitPostUseCaseTest extends TestCase {
       }));
 
     $this->runUseCaseWith($this->storedUserId, "Post text.");
+  }
+
+  public function testReturnsPublishedPost() {
+    $publishedPost = $this->runUseCaseWith($this->storedUserId, "Post text.");
+
+    $this->assertEquals('7c74136e-edc8-4c6e-ad0b-f94b0770e18c', $publishedPost->getId());
+    $this->assertEquals($this->storedUserId, $publishedPost->getUserId());
+    $this->assertEquals("Post text.", $publishedPost->getText());
+    $this->assertInstanceOf(\DateTime::class, $publishedPost->getPublishDateTime());
   }
 
   private function runUseCaseWith($userId, $postText) {

@@ -37,7 +37,7 @@ class SubmitPostUseCase {
   }
 
   private function hasInappropriateLanguage($post) {
-    $inappropriateWords = ['elephants', 'orange', 'ice cream'];
+    $inappropriateWords = ['elephant', 'orange', 'ice cream'];
 
     foreach($inappropriateWords as $inappropriateWord) {
       if(strpos(strtolower($post->getText()), $inappropriateWord) !== false)
