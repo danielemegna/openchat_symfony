@@ -21,8 +21,7 @@ class UsersWallApiE2ETest extends BaseE2E {
     $mariaId = $this->registerUser('maria89', 'About maria89 here.', 'very$ecure');
     $sandroId = $this->registerUser('sandro', 'About sandro here.', 'very$ecure');
 
-    $wallPosts = $this->getUserWall($shadyId);
-    $this->assertEquals([], $wallPosts);
+    $this->assertEquals([], $this->getUserWall($shadyId));
 
     $firstShadyPost = $this->submitPost($shadyId, "This is the first shady90 post.");
     $firstMariaPost = $this->submitPost($mariaId, "This is the first maria89 post.");
@@ -47,7 +46,9 @@ class UsersWallApiE2ETest extends BaseE2E {
     $this->createFollowing($shadyId, $mariaId);
     $this->createFollowing($mariaId, $shadyId);
 
-    // TODO test followee posts
+    $this->assertEquals([$firstSandroPost, $secondShadyPost, $firstMariaPost, $firstShadyPost], $this->getUserWall($shadyId));
+    $this->assertEquals([$secondShadyPost, $firstMariaPost, $firstShadyPost], $this->getUserWall($mariaId));
+    $this->assertEquals([$firstSandroPost], $this->getUserWall($sandroId));
   }
 
   private function getUserWall($userId) {
