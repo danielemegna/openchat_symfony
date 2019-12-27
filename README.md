@@ -48,7 +48,6 @@ $ google-chrome-stable --disable-web-security --incognito --user-data-dir /tmp/ 
 
 #### Refactoring notes
 
-- remove function gen_uuid duplication
 - remove serialize / deserialize duplications
 - usecase variables .... should be useCase?
 - check single and plural inappropriate words
