@@ -27,6 +27,7 @@ class UsersTimelineController extends AbstractController {
       return new Response("User not found.", 400, ["Content-Type" => "text/plain"]);
     if($publishedPost instanceof InappropriateLanguageError)
       return new Response("Post contains inappropriate language.", 400, ["Content-Type" => "text/plain"]);
+
     $responseBody = [
       "postId" => $publishedPost->getId(),
       "userId" => $publishedPost->getUserId(),
@@ -41,8 +42,10 @@ class UsersTimelineController extends AbstractController {
    */
   public function getUserTimeline(string $userId, GetTimelineUseCase $getTimelineUseCase) {
     $userPosts = $getTimelineUseCase->run($userId);
+
     if($userPosts instanceof UnexistingUserError)
       return new Response("User not found.", 400, ["Content-Type" => "text/plain"]);
+
     $responseBody = array_map(function($p) {
       return [
         "postId" => $p->getId(),

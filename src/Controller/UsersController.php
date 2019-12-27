@@ -18,23 +18,7 @@ class UsersController extends AbstractController {
    */
   public function retrieveUsers(RetrieveUsersUseCase $usecase) {
     $users = $usecase->run();
-    return $this->serializeUsers($users);
-  }
 
-  /**
-   * @Route("/users", methods={"POST"})
-   */
-  public function registerUser(Request $request, RegisterUserUseCase $usecase) {
-    $userToBeRegistered = $this->deserializeUser($request->getContent());
-    $createdUser = $usecase->run($userToBeRegistered);
-
-    if($createdUser instanceof UsernameAlreadyUsedError)
-      return new Response('Username already in use.', 400, ['Content-Type' => 'text/plain']);
-
-    return $this->serializeUser($createdUser);
-  }
-
-  private function serializeUsers($users) {
     $responseBody = array_map(function($u) {
       return [
         'id' => $u->getId(),
@@ -42,24 +26,24 @@ class UsersController extends AbstractController {
         'about' => $u->getAbout()
       ];
     }, $users);
-
     return $this->json($responseBody);
   }
 
-  private function deserializeUser($jsonString) {
-    $json = json_decode($jsonString);
-    return User::newWithoutId(
-      $json->username,
-      $json->about,
-      $json->password
-    );
-  }
+  /**
+   * @Route("/users", methods={"POST"})
+   */
+  public function registerUser(Request $request, RegisterUserUseCase $usecase) {
+    $json = json_decode($request->getContent());
+    $userToBeRegistered = User::newWithoutId($json->username, $json->about, $json->password);
+    $createdUser = $usecase->run($userToBeRegistered);
 
-  private function serializeUser($user) {
+    if($createdUser instanceof UsernameAlreadyUsedError)
+      return new Response('Username already in use.', 400, ['Content-Type' => 'text/plain']);
+
     $responseBody = [
-      'id' => $user->getId(),
-      'username' => $user->getUsername(),
-      'about' => $user->getAbout()
+      'id' => $createdUser->getId(),
+      'username' => $createdUser->getUsername(),
+      'about' => $createdUser->getAbout()
     ];
     return $this->json($responseBody);
   }

@@ -22,14 +22,11 @@ class LoginController extends AbstractController {
 
     if($loggedUser instanceof InvalidCredentialsError)
       return new Response('Invalid credentials.', 404, ['Content-Type' => 'text/plain']);
-    return $this->serializeUser($loggedUser);
-  }
 
-  private function serializeUser($user) {
     $responseBody = [
-      'id' => $user->getId(),
-      'username' => $user->getUsername(),
-      'about' => $user->getAbout()
+      'id' => $loggedUser->getId(),
+      'username' => $loggedUser->getUsername(),
+      'about' => $loggedUser->getAbout()
     ];
     return $this->json($responseBody);
   }

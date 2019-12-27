@@ -20,18 +20,15 @@ class UsersWallController extends AbstractController {
     if($wallPosts instanceof UnexistingUserError)
       return new Response("User not found.", 400, ["Content-Type" => "text/plain"]);
 
-    return $this->json($this->serializePosts($wallPosts), 200);
-  }
-
-  private function serializePosts(array $posts) {
-    return array_map(function($p) {
+    $responseBody = array_map(function($p) {
       return [
         "postId" => $p->getId(),
         "userId" => $p->getUserId(),
         "text" => $p->getText(),
         "dateTime" => $p->getPublishDateTime()->format('Y-m-d\TH:i:s\Z')
       ];
-    }, $posts);
+    }, $wallPosts);
+    return $this->json($responseBody);
   }
 
 }

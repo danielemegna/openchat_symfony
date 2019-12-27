@@ -16,7 +16,9 @@ class FollowingsController extends AbstractController {
    */
   public function createFollowing(Request $request, CreateFollowingUseCase $usecase) {
     $json = json_decode($request->getContent());
+
     $usecase->run($json->followerId, $json->followeeId);
+
     return new Response("Following created.", 201, ["Content-Type" => "text/plain"]);
   }
 
@@ -25,18 +27,14 @@ class FollowingsController extends AbstractController {
    */
   public function retrieveFollowees(string $followerId, RetrieveFolloweesUseCase $usecase) {
     $followees = $usecase->run($followerId);
-    return $this->serializeUsers($followees);
-  }
 
-  private function serializeUsers($users) {
     $responseBody = array_map(function($u) {
       return [
         'id' => $u->getId(),
         'username' => $u->getUsername(),
         'about' => $u->getAbout()
       ];
-    }, $users);
-
+    }, $followees);
     return $this->json($responseBody);
   }
 
