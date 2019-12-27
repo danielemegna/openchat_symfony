@@ -24,9 +24,9 @@ class SqlLiteUserRepositoryTest extends TestCase {
 
   function testStoreAndGet() {
     $shadyId = $this->repository->store(User::newWithoutId("shady90", "shady90 about.", "securePassword"));
-    $this->assertTrue(!is_null($shadyId) && !empty($shadyId));
+    $this->asserIsAValidUserId($shadyId);
     $mariaId = $this->repository->store(User::newWithoutId("maria89", "maria89 about.", "secureAgain"));
-    $this->assertTrue(!is_null($mariaId) && !empty($mariaId));
+    $this->asserIsAValidUserId($mariaId);
 
     $users = $this->repository->getAll();
 
@@ -46,6 +46,13 @@ class SqlLiteUserRepositoryTest extends TestCase {
     $foundUser = $this->repository->getById($shadyId);
     $expected = User::build($shadyId, "shady90", "shady90 about.", "securePassword");
     $this->assertEquals($expected, $foundUser);
+  }
+
+  private function asserIsAValidUserId(string $value) {
+    $this->assertRegExp(
+      '/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i',
+      $value, "Provided id do not match expected format."
+    );
   }
 
 }

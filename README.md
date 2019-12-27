@@ -50,8 +50,8 @@ $ google-chrome-stable --disable-web-security --incognito --user-data-dir /tmp/ 
 
 - remove function gen_uuid duplication
 - remove serialize / deserialize duplications
-- remove assertIsAValidUUID duplication
 - usecase variables .... should be useCase?
 - check single and plural inappropriate words
 - foreign key on user table for posts and followings?
 - extract submit new post E2EBase method
+- test SqlLite repositories one method at time

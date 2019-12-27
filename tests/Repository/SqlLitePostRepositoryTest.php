@@ -24,8 +24,8 @@ class SqlLitePostRepositoryTest extends TestCase {
     $firstShadyPostId = $this->repository->store(Post::newWithoutId("shady90Id", "First shady90 post.", new \DateTime()));
     $secondShadyPostId = $this->repository->store(Post::newWithoutId("shady90Id", "Another shady90 post.", new \DateTime()));
     $firstMariaPostId = $this->repository->store(Post::newWithoutId("maria89Id", "Maria first post.", new \DateTime()));
-    $this->assertIsAValidUUID($firstShadyPostId);
-    $this->assertIsAValidUUID($firstMariaPostId);
+    $this->asserIsAValidPostId($firstShadyPostId);
+    $this->asserIsAValidPostId($firstMariaPostId);
 
     $actual = $this->repository->getByUserId("shady90Id");
     $this->assertEquals(2, sizeof($actual));
@@ -59,8 +59,11 @@ class SqlLitePostRepositoryTest extends TestCase {
     $this->assertEquals('456789', $posts[0]->getPublishDateTime()->format('u'));
   }
 
-  private function assertIsAValidUUID(string $string) {
-    $this->assertRegExp('/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i', $string);
+  private function asserIsAValidPostId(string $value) {
+    $this->assertRegExp(
+      '/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i',
+      $value, "Provided id do not match expected format."
+    );
   }
 
 }

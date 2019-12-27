@@ -69,8 +69,4 @@ class SubmitPostUseCaseTest extends TestCase {
     $postToSubmit = Post::newWithoutIdAndDate($userId, $postText);
     return $this->usecase->run($postToSubmit);
   }
-
-  private function assertIsAValidUUID(string $string) {
-    $this->assertRegExp('/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i', $string);
-  }
 }
