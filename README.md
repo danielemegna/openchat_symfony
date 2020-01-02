@@ -51,3 +51,4 @@ $ google-chrome-stable --disable-web-security --incognito --user-data-dir /tmp/ 
 - foreign key on user table for posts and followings?
 - test SqlLite repositories one method at time
 - remove *public* from test methods?
+- refactor SqlLitePostRepositoryScenarioTest: too many asserts
