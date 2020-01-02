@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 use App\Repository\SqlLitePostRepository;
 use App\Entity\Post;
 
-class SqlLitePostRepositoryTest extends TestCase {
+class SqlLitePostRepositoryScenarioTest extends TestCase {
 
   private $repository;
 

@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 use App\Repository\SqlLiteUserRepository;
 use App\Entity\User;
 
-class SqlLiteUserRepositoryTest extends TestCase {
+class SqlLiteUserRepositoryScenarioTest extends TestCase {
 
   private $repository;
 

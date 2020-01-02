@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 use App\Repository\SqlLiteFollowingRepository;
 use App\Entity\Following;
 
-class SqlLiteFollowingRepositoryTest extends TestCase {
+class SqlLiteFollowingRepositoryScenarioTest extends TestCase {
 
   private $repository;
 
