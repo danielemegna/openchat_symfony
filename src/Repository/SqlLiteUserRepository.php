@@ -55,7 +55,7 @@ class SqlLiteUserRepository implements UserRepository {
 
   private function usersFrom(\SQLite3Result $result) {
     $users = [];
-    while ($row = $result->fetchArray()) {
+    while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
       $users[] = User::build($row["ID"], $row["USERNAME"], $row["ABOUT"], $row["PASSWORD"]);
     }
     return $users;

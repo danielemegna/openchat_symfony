@@ -41,7 +41,7 @@ class SqlLitePostRepository implements PostRepository {
 
   private function postsFrom(\SQLite3Result $result) {
     $posts = [];
-    while ($row = $result->fetchArray()) {
+    while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
       $publishDatetime = \DateTime::createFromFormat(self::DATETIME_STORE_FORMAT, $row["PUBLISH_DATETIME"]);
       $posts[] = Post::build($row["ID"], $row["USER_ID"], $row["TEXT"], $publishDatetime);
     }

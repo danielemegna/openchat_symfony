@@ -34,7 +34,7 @@ class SqlLiteFollowingRepository implements FollowingRepository {
 
   private function followingsFrom(\SQLite3Result $result) {
     $followings = [];
-    while ($row = $result->fetchArray()) {
+    while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
       $followings[] = new Following($row["FOLLOWER_ID"], $row["FOLLOWEE_ID"]);
     }
     return $followings;
