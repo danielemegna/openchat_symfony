@@ -25,6 +25,6 @@ class LoginUserUseCase {
 
 final class InvalidCredentialsError extends User {
   function __construct(string $username, string $password) {
-    return new parent(['username' => $username, 'about' => 'InvalidCredentialsError', 'password' => $password]);
+    parent::__construct(['username' => $username, 'about' => 'InvalidCredentialsError', 'password' => $password]);
   }
 }

@@ -29,21 +29,21 @@ class SqlLitePostRepositoryScenarioTest extends TestCase {
 
     $actual = $this->repository->getByUserId("shady90Id");
     $this->assertEquals(2, sizeof($actual));
-    $this->assertEquals($firstShadyPostId, $actual[0]->getId());
-    $this->assertEquals("shady90Id", $actual[0]->getUserId());
-    $this->assertEquals("First shady90 post.", $actual[0]->getText());
-    $this->assertNotNull($actual[0]->getPublishDateTime());
-    $this->assertEquals($secondShadyPostId, $actual[1]->getId());
-    $this->assertEquals("shady90Id", $actual[1]->getUserId());
-    $this->assertEquals("Another shady90 post.", $actual[1]->getText());
-    $this->assertNotNull($actual[1]->getPublishDateTime());
+    $this->assertEquals($firstShadyPostId, $actual[0]->id);
+    $this->assertEquals("shady90Id", $actual[0]->userId);
+    $this->assertEquals("First shady90 post.", $actual[0]->text);
+    $this->assertNotNull($actual[0]->publishDateTime);
+    $this->assertEquals($secondShadyPostId, $actual[1]->id);
+    $this->assertEquals("shady90Id", $actual[1]->userId);
+    $this->assertEquals("Another shady90 post.", $actual[1]->text);
+    $this->assertNotNull($actual[1]->publishDateTime);
 
     $actual = $this->repository->getByUserId("maria89Id");
     $this->assertEquals(1, sizeof($actual));
-    $this->assertEquals($firstMariaPostId, $actual[0]->getId());
-    $this->assertEquals("maria89Id", $actual[0]->getUserId());
-    $this->assertEquals("Maria first post.", $actual[0]->getText());
-    $this->assertNotNull($actual[0]->getPublishDateTime());
+    $this->assertEquals($firstMariaPostId, $actual[0]->id);
+    $this->assertEquals("maria89Id", $actual[0]->userId);
+    $this->assertEquals("Maria first post.", $actual[0]->text);
+    $this->assertNotNull($actual[0]->publishDateTime);
 
     $actual = $this->repository->getByUserId("notPresent");
     $this->assertEquals([], $actual);
@@ -55,8 +55,8 @@ class SqlLitePostRepositoryScenarioTest extends TestCase {
     $this->repository->store(Post::newWithoutId("userId", "Post text.", $postDateTime));
     $posts = $this->repository->getByUserId("userId");
 
-    $this->assertEquals($postDateTime, $posts[0]->getPublishDateTime());
-    $this->assertEquals('456789', $posts[0]->getPublishDateTime()->format('u'));
+    $this->assertEquals($postDateTime, $posts[0]->publishDateTime);
+    $this->assertEquals('456789', $posts[0]->publishDateTime->format('u'));
   }
 
   private function asserIsAValidPostId(string $value) {

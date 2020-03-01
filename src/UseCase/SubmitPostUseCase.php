@@ -17,22 +17,22 @@ class SubmitPostUseCase {
   }
 
   function run(Post $post) {
-    if(!$this->userRepository->existsById($post->getUserId()))
-      return new UnexistingUserError($post->getUserId());
+    if(!$this->userRepository->existsById($post->userId))
+      return new UnexistingUserError($post->userId);
     if($this->hasInappropriateLanguage($post))
       return new InappropriateLanguageError($post);
 
     $postToBeStored = Post::newWithoutId(
-      $post->getUserId(),
-      $post->getText(),
+      $post->userId,
+      $post->text,
       new \DateTime()
     );
     $storedId = $this->postRepository->store($postToBeStored);
     return Post::build(
       $storedId,
-      $postToBeStored->getUserId(),
-      $postToBeStored->getText(),
-      $postToBeStored->getPublishDateTime()
+      $postToBeStored->userId,
+      $postToBeStored->text,
+      $postToBeStored->publishDateTime
     );
   }
 
@@ -40,7 +40,7 @@ class SubmitPostUseCase {
     $inappropriateWords = ['elephant', 'orange', 'ice cream'];
 
     foreach($inappropriateWords as $inappropriateWord) {
-      if(strpos(strtolower($post->getText()), $inappropriateWord) !== false)
+      if(strpos(strtolower($post->text), $inappropriateWord) !== false)
         return true;
     }
 
@@ -57,6 +57,6 @@ final class UnexistingUserError {
 
 final class InappropriateLanguageError extends Post {
   public function __construct($post) {
-    parent::newWithoutIdAndDate($post->getUserId(), $post->getText());
+    parent::__construct(['userId' => $post->userId, 'text' => $post->text]);
   }
 }

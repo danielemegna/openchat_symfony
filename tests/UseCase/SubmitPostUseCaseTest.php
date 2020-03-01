@@ -48,10 +48,10 @@ class SubmitPostUseCaseTest extends TestCase {
     $this->postRepository
       ->expects($this->once())->method('store')
       ->with($this->callback(function ($post) {
-        $this->assertNull($post->getId());
-        $this->assertEquals($this->storedUserId, $post->getUserId());
-        $this->assertEquals("Post text.", $post->getText());
-        $this->assertNotNull($post->getPublishDateTime());
+        $this->assertNull($post->id);
+        $this->assertEquals($this->storedUserId, $post->userId);
+        $this->assertEquals("Post text.", $post->text);
+        $this->assertNotNull($post->publishDateTime);
         return true;
       }));
 
@@ -61,10 +61,10 @@ class SubmitPostUseCaseTest extends TestCase {
   public function testReturnsPublishedPost() {
     $publishedPost = $this->runUseCaseWith($this->storedUserId, "Post text.");
 
-    $this->assertEquals('7c74136e-edc8-4c6e-ad0b-f94b0770e18c', $publishedPost->getId());
-    $this->assertEquals($this->storedUserId, $publishedPost->getUserId());
-    $this->assertEquals("Post text.", $publishedPost->getText());
-    $this->assertInstanceOf(\DateTime::class, $publishedPost->getPublishDateTime());
+    $this->assertEquals('7c74136e-edc8-4c6e-ad0b-f94b0770e18c', $publishedPost->id);
+    $this->assertEquals($this->storedUserId, $publishedPost->userId);
+    $this->assertEquals("Post text.", $publishedPost->text);
+    $this->assertInstanceOf(\DateTime::class, $publishedPost->publishDateTime);
   }
 
   private function runUseCaseWith($userId, $postText) {

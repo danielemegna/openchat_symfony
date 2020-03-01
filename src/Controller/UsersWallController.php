@@ -22,10 +22,10 @@ class UsersWallController extends AbstractController {
 
     $responseBody = array_map(function($p) {
       return [
-        "postId" => $p->getId(),
-        "userId" => $p->getUserId(),
-        "text" => $p->getText(),
-        "dateTime" => $p->getPublishDateTime()->format('Y-m-d\TH:i:s\Z')
+        "postId" => $p->id,
+        "userId" => $p->userId,
+        "text" => $p->text,
+        "dateTime" => $p->publishDateTime->format('Y-m-d\TH:i:s\Z')
       ];
     }, $wallPosts);
     return $this->json($responseBody);

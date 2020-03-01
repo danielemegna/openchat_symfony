@@ -32,9 +32,9 @@ class SqlLitePostRepository implements PostRepository {
     $newId = $this->generatePostId();
     $insert = $this->sqlite->prepare('INSERT INTO POSTS(ID, USER_ID, TEXT, PUBLISH_DATETIME) VALUES(?,?,?,?)');
     $insert->bindValue(1, $newId);
-    $insert->bindValue(2, $post->getUserId());
-    $insert->bindValue(3, $post->getText());
-    $insert->bindValue(4, $post->getPublishDateTime()->format(self::DATETIME_STORE_FORMAT));
+    $insert->bindValue(2, $post->userId);
+    $insert->bindValue(3, $post->text);
+    $insert->bindValue(4, $post->publishDateTime->format(self::DATETIME_STORE_FORMAT));
     $insert->execute();
     return $newId;
   }

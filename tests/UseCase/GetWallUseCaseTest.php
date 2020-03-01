@@ -68,9 +68,9 @@ class GetWallUseCaseTest extends TestCase {
 
     $wallPosts = $this->usecase->run($this->storedUserId);
 
-    $this->assertEquals($wallPosts[0]->getText(), "Stored user post again.");
-    $this->assertEquals($wallPosts[1]->getText(), "Second user post.");
-    $this->assertEquals($wallPosts[2]->getText(), "Stored user post.");
+    $this->assertEquals($wallPosts[0]->text, "Stored user post again.");
+    $this->assertEquals($wallPosts[1]->text, "Second user post.");
+    $this->assertEquals($wallPosts[2]->text, "Stored user post.");
   }
 
 }

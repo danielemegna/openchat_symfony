@@ -37,7 +37,7 @@ class GetWallUseCase {
   private function sortPostByDateTimeDesc(array $posts) {
     $result = $posts;
     usort($result, function($a, $b) {
-      return $a->getPublishDateTime() <=> $b->getPublishDateTime();
+      return $a->publishDateTime <=> $b->publishDateTime;
     });
     return array_reverse($result);
   }

@@ -11,19 +11,19 @@ class InMemoryPostRepository implements PostRepository {
 
   function getByUserId($userId) {
     return array_filter($this->posts, function($p) use ($userId) {
-      return $p->getUserId() === $userId;
+      return $p->userId === $userId;
     });
   }
 
   function store($post) {
     $toBeStored = Post::build(
       $this->generatePostId(),
-      $post->getUserId(),
-      $post->getText(),
-      $post->getPublishDateTime()
+      $post->userId,
+      $post->text,
+      $post->publishDateTime
     );
     array_push($this->posts, $toBeStored);
-    return $toBeStored->getId();
+    return $toBeStored->id;
   }
 
   private function generatePostId() {
