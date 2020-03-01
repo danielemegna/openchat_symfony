@@ -30,9 +30,9 @@ class FollowingsController extends AbstractController {
 
     $responseBody = array_map(function($u) {
       return [
-        'id' => $u->getId(),
-        'username' => $u->getUsername(),
-        'about' => $u->getAbout()
+        'id' => $u->id,
+        'username' => $u->username,
+        'about' => $u->about
       ];
     }, $followees);
     return $this->json($responseBody);

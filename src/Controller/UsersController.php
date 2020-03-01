@@ -21,9 +21,9 @@ class UsersController extends AbstractController {
 
     $responseBody = array_map(function($u) {
       return [
-        'id' => $u->getId(),
-        'username' => $u->getUsername(),
-        'about' => $u->getAbout()
+        'id' => $u->id,
+        'username' => $u->username,
+        'about' => $u->about
       ];
     }, $users);
     return $this->json($responseBody);
@@ -41,9 +41,9 @@ class UsersController extends AbstractController {
       return new Response('Username already in use.', 400, ['Content-Type' => 'text/plain']);
 
     $responseBody = [
-      'id' => $createdUser->getId(),
-      'username' => $createdUser->getUsername(),
-      'about' => $createdUser->getAbout()
+      'id' => $createdUser->id,
+      'username' => $createdUser->username,
+      'about' => $createdUser->about
     ];
     return $this->json($responseBody);
   }

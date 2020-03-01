@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d3c4cfdd86974c30f9887f45704d539f",
+    "content-hash": "284b976d97d77385a258c09fb6ec415b",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -135,6 +135,61 @@
                 "php"
             ],
             "time": "2019-10-30T14:39:59+00:00"
+        },
+        {
+            "name": "gabrielelana/precious",
+            "version": "0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/gabrielelana/precious.git",
+                "reference": "dd44430b695d9e269bc1a85808b18eb277021fda"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/gabrielelana/precious/zipball/dd44430b695d9e269bc1a85808b18eb277021fda",
+                "reference": "dd44430b695d9e269bc1a85808b18eb277021fda",
+                "shasum": ""
+            },
+            "require": {
+                "php": "~7.1"
+            },
+            "require-dev": {
+                "nikic/php-parser": "^4.1",
+                "phpstan/phpstan": "^0.11",
+                "phpunit/phpunit": "^8.0"
+            },
+            "suggest": {
+                "nikic/php-parser": "^4.1",
+                "phpstan/phpstan": "^0.11"
+            },
+            "type": "library",
+            "extra": {
+                "phpstan": {
+                    "includes": [
+                        "rules.neon"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Precious\\": [
+                        "./src",
+                        "./tests"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "gabriele.lana",
+                    "email": "gabriele.lana@cleancode.it"
+                }
+            ],
+            "description": "Library to build value objects",
+            "time": "2019-10-27T17:29:22+00:00"
         },
         {
             "name": "psr/cache",

@@ -24,11 +24,11 @@ class RegisterUserUseCaseTest extends TestCase {
     $registeredUser = $this->usecase->run($user);
 
     $this->assertInstanceOf(User::class, $registeredUser);
-    $this->assertEquals("username", $registeredUser->getUsername());
-    $this->assertEquals("about", $registeredUser->getAbout());
-    $this->assertEquals("pass", $registeredUser->getPassword());
-    $this->assertNotNull($registeredUser->getId());
-    $this->assertNotEmpty($registeredUser->getId());
+    $this->assertEquals("username", $registeredUser->username);
+    $this->assertEquals("about", $registeredUser->about);
+    $this->assertEquals("pass", $registeredUser->password);
+    $this->assertNotNull($registeredUser->id);
+    $this->assertNotEmpty($registeredUser->id);
   }
 
   public function testProduceUsernameAlreadyUsed() {

@@ -46,9 +46,9 @@ class SqlLiteUserRepository implements UserRepository {
     $newId = $this->generateUserId();
     $insert = $this->sqlite->prepare('INSERT INTO USERS(ID, USERNAME, ABOUT, PASSWORD) VALUES(?,?,?,?)');
     $insert->bindValue(1, $newId);
-    $insert->bindValue(2, $user->getUsername());
-    $insert->bindValue(3, $user->getAbout());
-    $insert->bindValue(4, $user->getPassword());
+    $insert->bindValue(2, $user->username);
+    $insert->bindValue(3, $user->about);
+    $insert->bindValue(4, $user->password);
     $insert->execute();
     return $newId;
   }

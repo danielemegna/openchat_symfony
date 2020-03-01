@@ -8,10 +8,11 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "doctrine/annotations": "*",
-        "symfony/framework-bundle": "*",
+        "gabrielelana/precious": "^0.1.0",
         "symfony/console": "*",
         "symfony/dotenv": "*",
         "symfony/flex": "*",
+        "symfony/framework-bundle": "*",
         "symfony/yaml": "*"
     },
     "require-dev": {

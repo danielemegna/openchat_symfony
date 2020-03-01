@@ -15,14 +15,14 @@ class InMemoryUserRepository implements UserRepository {
 
   function getByUsername($username) {
     $results = array_filter($this->users, function($u) use ($username) {
-      return $u->getUsername() === $username;
+      return $u->username === $username;
     });
     return array_pop($results);
   }
 
   function getById($id) {
     $results = array_filter($this->users, function($u) use ($id) {
-      return $u->getId() === $id;
+      return $u->id === $id;
     });
     return array_pop($results);
   }
@@ -32,14 +32,9 @@ class InMemoryUserRepository implements UserRepository {
   }
 
   function store($user) {
-    $toBeStored = User::build(
-      $this->generateUserId(),
-      $user->getUsername(),
-      $user->getAbout(),
-      $user->getPassword()
-    );
+    $toBeStored = $user->with(['id' => $this->generateUserId()]);
     array_push($this->users, $toBeStored);
-    return $toBeStored->getId();
+    return $toBeStored->id;
   }
 
   private function generateUserId() {

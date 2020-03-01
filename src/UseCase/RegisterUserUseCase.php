@@ -14,25 +14,17 @@ class RegisterUserUseCase {
   }
 
   function run($user) {
-    if($this->userRepository->getByUsername($user->getUsername()) !== null) {
-      return new UsernameAlreadyUsedError($user->getUsername());
+    if($this->userRepository->getByUsername($user->username) !== null) {
+      return new UsernameAlreadyUsedError($user->username);
     }
 
     $storedId = $this->userRepository->store($user);
-    return User::build(
-      $storedId,
-      $user->getUsername(),
-      $user->getAbout(),
-      $user->getPassword()
-    );
+    return $user->with(['id' => $storedId]);
   }
 }
 
 final class UsernameAlreadyUsedError extends User {
   function __construct(string $username) {
-    $this->username = $username;
+    return new parent(['username' => $username, 'about' => 'UsernameAlreadyUsedError', 'password' => 'InvalidCredentialsError']);
   }
-  public function getId() { return null; }
-  public function getAbout() { return null; }
-  public function getPassword() { return null; }
 }

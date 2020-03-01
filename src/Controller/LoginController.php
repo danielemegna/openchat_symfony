@@ -24,9 +24,9 @@ class LoginController extends AbstractController {
       return new Response('Invalid credentials.', 404, ['Content-Type' => 'text/plain']);
 
     $responseBody = [
-      'id' => $loggedUser->getId(),
-      'username' => $loggedUser->getUsername(),
-      'about' => $loggedUser->getAbout()
+      'id' => $loggedUser->id,
+      'username' => $loggedUser->username,
+      'about' => $loggedUser->about
     ];
     return $this->json($responseBody);
   }

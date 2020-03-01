@@ -16,7 +16,7 @@ class LoginUserUseCase {
   function run($username, $password) {
     $user = $this->userRepository->getByUsername($username);
 
-    if($user === null || $user->getPassword() !== $password)
+    if($user === null || $user->password !== $password)
       return new InvalidCredentialsError($username, $password);
 
     return $user;
@@ -25,9 +25,6 @@ class LoginUserUseCase {
 
 final class InvalidCredentialsError extends User {
   function __construct(string $username, string $password) {
-    $this->username = $username;
-    $this->password = $password;
+    return new parent(['username' => $username, 'about' => 'InvalidCredentialsError', 'password' => $password]);
   }
-  public function getId() { return null; }
-  public function getAbout() { return null; }
 }
