@@ -11,7 +11,7 @@ class InMemoryFollowingRepository implements FollowingRepository {
 
   function getByFollowerId($followerId) {
     return array_filter($this->followings, function($f) use ($followerId) {
-      return $f->getFollowerId() === $followerId;
+      return $f->followerId === $followerId;
     });
   }
 

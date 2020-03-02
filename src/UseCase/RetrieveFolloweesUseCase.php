@@ -18,7 +18,7 @@ class RetrieveFolloweesUseCase {
   function run($followerId) {
     $followings = $this->followingRepository->getByFollowerId($followerId);
     return array_map(function($f) {
-      return $this->userRepository->getById($f->getFolloweeId());
+      return $this->userRepository->getById($f->followeeId);
     }, $followings);
   }
 

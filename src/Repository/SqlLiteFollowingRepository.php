@@ -27,8 +27,8 @@ class SqlLiteFollowingRepository implements FollowingRepository {
 
   function store($following) {
     $insert = $this->sqlite->prepare('INSERT INTO FOLLOWINGS(FOLLOWER_ID, FOLLOWEE_ID) VALUES(?,?)');
-    $insert->bindValue(1, $following->getFollowerId());
-    $insert->bindValue(2, $following->getFolloweeId());
+    $insert->bindValue(1, $following->followerId);
+    $insert->bindValue(2, $following->followeeId);
     $insert->execute();
   }
 

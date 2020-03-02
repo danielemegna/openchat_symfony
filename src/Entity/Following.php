@@ -2,17 +2,19 @@
 
 namespace App\Entity;
 
-class Following {
+use Precious\Precious;
 
-  private $followerId;
-  private $followeeId;
+class Following extends Precious {
 
   function __construct(string $followerId, string $followeeId) {
-    $this->followerId = $followerId;
-    $this->followeeId = $followeeId;
+    parent::__construct(['followerId' => $followerId, 'followeeId' => $followeeId]);
   }
 
-  public function getFollowerId() { return $this->followerId; }
-  public function getFolloweeId() { return $this->followeeId; }
-
+  protected function init() : array
+  {
+    return [
+      self::required('followerId', self::stringType()),
+      self::required('followeeId', self::stringType()),
+    ];
+  }
 }

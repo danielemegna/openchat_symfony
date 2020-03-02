@@ -26,7 +26,7 @@ class GetWallUseCase {
 
     $followings = $this->followingRepository->getByFollowerId($userId);
     foreach($followings as $following) {
-      $followeeId = $following->getFolloweeId();
+      $followeeId = $following->followeeId;
       $followeePosts = $this->postRepository->getByUserId($followeeId);
       $wallPosts = array_merge($wallPosts, $followeePosts);
     }
