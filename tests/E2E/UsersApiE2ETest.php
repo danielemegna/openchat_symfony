@@ -23,6 +23,19 @@ class UsersApiE2ETest extends BaseE2E {
     $this->assertArrayContainsExactlyInAnyOrder($expected, $users);
   }
 
+  function testRegisterTwiceUserProduceAnError() {
+    $this->registerUser('shady90', 'About shady90 here.', 'very$ecure');
+
+    $response = $this->postAsJson(self::ENDPOINT, [
+      'username' => 'shady90',
+      'password' => 'any',
+      'about' => 'any'
+    ]);
+
+    $this->assertResponse($response, 400, "text/plain; charset=UTF-8");
+    $this->assertEquals("Username already in use.", $response->getContent());
+  }
+
   private function retrieveUsers() {
     $this->client->request('GET', self::ENDPOINT);
 
