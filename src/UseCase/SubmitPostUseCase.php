@@ -22,18 +22,9 @@ class SubmitPostUseCase {
     if($this->hasInappropriateLanguage($post))
       return new InappropriateLanguageError($post);
 
-    $postToBeStored = Post::newWithoutId(
-      $post->userId,
-      $post->text,
-      new \DateTime()
-    );
+    $postToBeStored = $post->with(['publishDateTime' => new \DateTime()]);
     $storedId = $this->postRepository->store($postToBeStored);
-    return Post::build(
-      $storedId,
-      $postToBeStored->userId,
-      $postToBeStored->text,
-      $postToBeStored->publishDateTime
-    );
+    return $postToBeStored->with(['id' => $storedId]);
   }
 
   private function hasInappropriateLanguage($post) {

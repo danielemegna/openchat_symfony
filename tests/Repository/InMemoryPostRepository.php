@@ -16,12 +16,7 @@ class InMemoryPostRepository implements PostRepository {
   }
 
   function store($post) {
-    $toBeStored = Post::build(
-      $this->generatePostId(),
-      $post->userId,
-      $post->text,
-      $post->publishDateTime
-    );
+    $toBeStored = $post->with(['id' => $this->generatePostId()]);
     array_push($this->posts, $toBeStored);
     return $toBeStored->id;
   }
