@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\UseCase\InvalidCredentialsError;
+use App\UseCase\Error\InvalidCredentialsError;
 use App\UseCase\LoginUserUseCase;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

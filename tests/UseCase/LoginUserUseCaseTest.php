@@ -4,7 +4,7 @@ namespace App\Tests\UseCase;
 
 use PHPUnit\Framework\TestCase;
 use App\UseCase\LoginUserUseCase;
-use App\UseCase\InvalidCredentialsError;
+use App\UseCase\Error\InvalidCredentialsError;
 use App\Entity\User;
 use App\Tests\Repository\InMemoryUserRepository;
 

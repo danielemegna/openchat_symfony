@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\UseCase\UnexistingUserError;
+use App\UseCase\Error\UnexistingUserError;
 use App\UseCase\GetWallUseCase;
 
 class UsersWallController extends AbstractController {

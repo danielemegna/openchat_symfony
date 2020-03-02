@@ -4,6 +4,7 @@ namespace App\UseCase;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
+use App\UseCase\Error\UsernameAlreadyUsedError;
 
 class RegisterUserUseCase {
 
@@ -20,11 +21,5 @@ class RegisterUserUseCase {
 
     $storedId = $this->userRepository->store($user);
     return $user->with(['id' => $storedId]);
-  }
-}
-
-final class UsernameAlreadyUsedError extends User {
-  function __construct(string $username) {
-    return new parent(['username' => $username, 'about' => 'UsernameAlreadyUsedError', 'password' => 'InvalidCredentialsError']);
   }
 }

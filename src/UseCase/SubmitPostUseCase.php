@@ -5,6 +5,8 @@ namespace App\UseCase;
 use App\Entity\Post;
 use App\Repository\UserRepository;
 use App\Repository\PostRepository;
+use App\UseCase\Error\UnexistingUserError;
+use App\UseCase\Error\InappropriateLanguageError;
 
 class SubmitPostUseCase {
 
@@ -36,18 +38,5 @@ class SubmitPostUseCase {
     }
 
     return false;
-  }
-}
-
-final class UnexistingUserError {
-  private $userId;
-  public function __construct($userId) {
-    $this->userId = $userId;
-  }
-}
-
-final class InappropriateLanguageError extends Post {
-  public function __construct($post) {
-    parent::__construct(['userId' => $post->userId, 'text' => $post->text]);
   }
 }

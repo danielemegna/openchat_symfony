@@ -4,7 +4,7 @@ namespace App\Tests\UseCase;
 
 use PHPUnit\Framework\TestCase;
 use App\UseCase\RegisterUserUseCase;
-use App\UseCase\UsernameAlreadyUsedError;
+use App\UseCase\Error\UsernameAlreadyUsedError;
 use App\Entity\User;
 use App\Tests\Repository\InMemoryUserRepository;
 

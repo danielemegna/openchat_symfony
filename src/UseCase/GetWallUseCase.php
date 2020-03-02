@@ -5,6 +5,7 @@ namespace App\UseCase;
 use App\Repository\PostRepository;
 use App\Repository\UserRepository;
 use App\Repository\FollowingRepository;
+use App\UseCase\Error\UnexistingUserError;
 
 class GetWallUseCase {
 

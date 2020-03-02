@@ -4,11 +4,11 @@ namespace App\Tests\UseCase;
 
 use PHPUnit\Framework\TestCase;
 use App\UseCase\GetTimelineUseCase;
-use App\UseCase\UnexistingUserError;
 use App\Entity\User;
 use App\Entity\Post;
 use App\Tests\Repository\InMemoryUserRepository;
 use App\Tests\Repository\InMemoryPostRepository;
+use App\UseCase\Error\UnexistingUserError;
 
 class GetTimelineUseCaseTest extends TestCase {
 

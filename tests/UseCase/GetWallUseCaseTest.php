@@ -4,7 +4,7 @@ namespace App\Tests\UseCase;
 
 use PHPUnit\Framework\TestCase;
 use App\UseCase\GetWallUseCase;
-use App\UseCase\UnexistingUserError;
+use App\UseCase\Error\UnexistingUserError;
 use App\Entity\User;
 use App\Entity\Post;
 use App\Entity\Following;

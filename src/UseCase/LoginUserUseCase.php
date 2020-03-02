@@ -4,6 +4,7 @@ namespace App\UseCase;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
+use App\UseCase\Error\InvalidCredentialsError;
 
 class LoginUserUseCase {
 
@@ -23,8 +24,3 @@ class LoginUserUseCase {
   }
 }
 
-final class InvalidCredentialsError extends User {
-  function __construct(string $username, string $password) {
-    parent::__construct(['username' => $username, 'about' => 'InvalidCredentialsError', 'password' => $password]);
-  }
-}

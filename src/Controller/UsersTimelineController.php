@@ -4,8 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Post;
 use App\UseCase\SubmitPostUseCase;
-use App\UseCase\UnexistingUserError;
-use App\UseCase\InappropriateLanguageError;
+use App\UseCase\Error\UnexistingUserError;
+use App\UseCase\Error\InappropriateLanguageError;
 use App\UseCase\GetTimelineUseCase;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\UseCase\UsernameAlreadyUsedError;
+use App\UseCase\Error\UsernameAlreadyUsedError;
 use App\UseCase\RegisterUserUseCase;
 use App\UseCase\RetrieveUsersUseCase;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
