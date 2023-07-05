@@ -30,7 +30,13 @@ or run foreground application with
 $ php bin/console server:run 0.0.0.0:4321
 ```
 
-Use tmuxinator
+To run chrome disabling CORS security check and test the application with cleancoders_openchat_webclient:
+
+```
+$ google-chrome-stable --disable-web-security --incognito --user-data-dir /tmp/ http://localhost:5000
+```
+
+If you use tmuxinator
 ```
 $ tmuxinator local
 ```
@@ -39,23 +45,3 @@ or tmuxp
 ```
 $ tmuxp load .tmuxp.yml
 ```
-
-To run chrome disabling CORS security check and test the application with cleancoders_openchat_webclient:
-
-```
-$ google-chrome-stable --disable-web-security --incognito --user-data-dir /tmp/ http://localhost:5000
-```
-
-#### Refactoring notes
-
-- remove function gen_uuid duplication
-- remove serialize / deserialize duplications
-- remove assertIsAValidUUID duplication
-- usecase variables .... should be useCase?
-- check single and plural inappropriate words
-- foreign key on user table for posts and followings?
-- extract submit new post E2EBase method
-
-#### Where to continue
-
-- UsersWallApiE2ETest.testWallForExistingUser: test followee posts in timeline
